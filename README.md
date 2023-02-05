@@ -1,7 +1,7 @@
 
 # Polymath
 
-Polymath uses neural-nets to convert any music library (e.g from hard-drive or YouTube) into a music production sample-library. All songs are automatically separated into stems *(beats, bass, etc.)*, quantized to the same tempo and beat-grid *(e.g. 120bpm)*, analyzed for musical structure *(e.g. verse, chorus, etc.)* and key (*e.g C4, E3, etc.*). Polymath is a game-changing workflow for music producers and DJs.
+Polymath uses neural networks to convert any music library (e.g from hard-drive or YouTube) into a music production sample-library. All songs are automatically separated into stems *(beats, bass, etc.)*, quantized to the same tempo and beat-grid *(e.g. 120bpm)* and made sortable by musical structure *(e.g. verse, chorus, etc.)* and key (*e.g C4, E3, etc.*). Polymath is a game-changing workflow for music producers and DJs (and ML audio devs in need of training data)
 
 <p align="center"><img  width="95%"  src="https://samim.io/static/upload/Fl4g_z4XkAEfDS_.jpeg"  /></p>
 
