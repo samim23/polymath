@@ -666,31 +666,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-# TODO:
-# - Make requiremnts.txt and pip install list
-# - Write readme.md
-# - Upload to github
-
-# TODO LATER:
-# - Option in the quanzier to pitch shift first
-# - Add splited stems to video db
-# - Add quantized files to video DB
-# - Include volume & loudness in DB
-
-# DONE:
-# - Add option to ingest wav/mp3 files instead of videos
-# - Option to quantize to speed of the original song
-# - Search: Ignore bpm flag
-# - Add option to see everything i DB
-# - Directory wav donwload
-# - Clean dependencies
-# - Clean up audio directory names (video = database) and save database file there too
-
-
-# For Readme.md:
-# python polymath_audio.py -s PBwAxmrE194 -sa 3 -q all -t 120        : Search for 3 songs in db that are related to X and then quanize the results to 120 bpm
-# python polymath_audio.py -q all           : quanzie all songs in DB to 120 bpm
-# python polymath_audio.py -a wzNaAIivJQE    : add youtube video to DB
-# python polymath_audio.py -s Agazgu_2c1e6225374ca3f1f6e9d3960a4d1b24467e71abf5fcf2fb88a71f5055a6ebd1 -sa 5 -t 120 -st         - Search for video id, give 5 resutls back, and incl. bpm in search 
