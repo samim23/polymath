@@ -14,7 +14,7 @@ Polymath uses machine learning to convert any music library (e.g from hard-drive
 - Music Structure Segmentation/Labeling is performed with the [sf_segmenter](https://github.com/wayne391/sf_segmenter) neural network
 - Music Pitch Tracking and Key Detection are performed with [Crepe](https://github.com/marl/crepe) neural network
 - Music Quantization and Alignment are performed with [pyrubberband](https://github.com/bmcfee/pyrubberband)
-- Music Info Retrieval is performed with [librosa](https://github.com/librosa/librosa)
+- Music Info retrieval and processing is performed with [librosa](https://github.com/librosa/librosa)
 
 ## Installation
 
