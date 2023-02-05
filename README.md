@@ -48,7 +48,7 @@ Songs are automatically analyzed once which takes some time. Once in the databas
 ```bash
 python polymath.py -q n6DAqMFe97E -t 120
 ```
-##### Quantize all songs in the library
+##### Quantize all songs in the library to tempo 120 BPM
 ```bash
 python polymath.py -q all -t 120
 ```
@@ -61,7 +61,7 @@ Songs are automatically quantized to the same tempo and beat-grid and saved to t
 ### 3. Search for similar songs in the Polymath Library
 ##### Search for similar songs based on a specific songs in the library (-s = query audio file ID, -sa = results amount)
 ```bash
-python polymath.py -s n6DAqMFe97E -sa 10 -q all
+python polymath.py -s n6DAqMFe97E -sa 10
 ```
 ##### Search for similar songs based on a specific songs in the library and quantize all of them to tempo 120 BPM
 ```bash
