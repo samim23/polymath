@@ -73,5 +73,37 @@ python polymath.py -s n6DAqMFe97E -sa 10 -q all -t 120 -st -k
 ```
 Similar songs are automatically found and optionally quantized and saved to the folder "/processed". This makes it easy to create for example an hour long mix of songs that perfectly match one after the other. 
 
+## Extracted Audio Stems
+The Demucs Neural Net has settings that can be adjusted in the python file
+```bash
+- bass
+- drum
+- guitare
+- other
+- piano
+- vocals
+```
+## Analyzed Audio Features
+The audio feature extractors have settings that can be adjusted in the python file
+```bash
+- tempo
+- duration
+- timbre
+- timbre_frames
+- pitch
+- pitch_frames
+- intensity
+- intensity_frames
+- volume
+- avg_volume
+- loudness
+- beats
+- segments_boundaries
+- segments_labels
+- frequency_frames
+- frequency
+- key
+```
+
 ## License
 Polymath is released under the MIT license as found in the [LICENSE](https://github.com/samim23/polymath/blob/main/LICENSE) file.
