@@ -8,7 +8,7 @@ Polymath uses machine learning to convert any music library (e.g from hard-drive
 **Use-case example:** With Polymath you can very easily grab a beat from a Funkadelic tune, grab a bassline from an Tito Puente tune, grab fitting horns from a Fela Kuti tune and mash them together in your DAW.
 
 ## How does it work?
-- Music Source Separation is performed with Facebook's [Demucs](https://github.com/facebookresearch/demucs) neural network
+- Music Source Separation is performed with the [Demucs](https://github.com/facebookresearch/demucs) neural network
 - Music Structure Segmentation/Labeling is performed with the [sf_segmenter](https://github.com/wayne391/sf_segmenter) neural network
 - Music Pitch Tracking and Key Detection are performed with [Crepe](https://github.com/marl/crepe) neural network
 - Music Quantization and Alignment are performed with [pyrubberband](https://github.com/bmcfee/pyrubberband)
@@ -73,7 +73,9 @@ python polymath.py -s n6DAqMFe97E -sa 10 -q all -t 120 -st -k
 ```
 Similar songs are automatically found and optionally quantized and saved to the folder "/processed". This makes it easy to create for example an hour long mix of songs that perfectly match one after the other. 
 
-## Extracted Audio Stems
+## Audio Features
+
+### Extracted Stems
 The Demucs Neural Net has settings that can be adjusted in the python file
 ```bash
 - bass
@@ -83,7 +85,7 @@ The Demucs Neural Net has settings that can be adjusted in the python file
 - piano
 - vocals
 ```
-## Analyzed Audio Features
+### Extracted Features
 The audio feature extractors have settings that can be adjusted in the python file
 ```bash
 - tempo
