@@ -5,7 +5,7 @@ Polymath uses neural-nets to convert any music library (e.g from hard-drive or Y
 
 <p align="center"><img  width="95%"  src="https://samim.io/static/upload/Fl4g_z4XkAEfDS_.jpeg"  /></p>
 
-**Use-case example:** With Polymath you can very easily grab a baseline from a Funkadelic tune, grab a beat from an Tito Puente tune, grab horns from a Fela Kuti tune - all semi-perfectly isolated - and mash them casually together in your favorite DAW to make a new song.
+**Use-case example:** With Polymath you can very easily grab a baseline from a Funkadelic tune, grab a beat from an Tito Puente tune, grab horns from a Fela Kuti tune and mash them together in your DAW.
 
 ## How does it work?
 - Music Source Separation is performed with Facebook's [Demucs](https://github.com/facebookresearch/demucs) neural network
