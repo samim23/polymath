@@ -1,7 +1,7 @@
 
 # Polymath
 
-Polymath uses neural-nets to convert any music library (e.g from hard-drive or YouTube) into a music production sample-library. All songs are automatically separated into stems *(beats, bass, etc.)*, quantized to the same tempo and beat-grid *(e.g. 120bpm)*, segmented by music structure *(e.g. verse, chorus, etc.)* and sorted by musical key (*e.g C4, E3, etc.*). Polymath is a game-changing workflow for music producers and DJs (*and ML audio developers*)
+Polymath uses neural-nets to convert any music library (e.g from hard-drive or YouTube) into a music production sample-library. All songs are automatically separated into stems *(beats, bass, etc.)*, quantized to the same tempo and beat-grid *(e.g. 120bpm)*, segmented by music structure *(e.g. verse, chorus, etc.)* and sorted by musical key (*e.g C4, E3, etc.*). Polymath is a game-changing workflow for music producers and DJs.
 
 <p align="center"><img  width="95%"  src="https://samim.io/static/upload/Fl4g_z4XkAEfDS_.jpeg"  /></p>
 
@@ -18,8 +18,8 @@ Polymath uses neural-nets to convert any music library (e.g from hard-drive or Y
 
 You will need at least Python 3.7. From your terminal run:
 ```bash
-git clone git@github.com:HazyResearch/ama_prompting.git
-cd ama_prompting
+git clone git@github.com:samim23/polymath.git
+cd polymath
 pip install -r requirements.txt
 ```
 
