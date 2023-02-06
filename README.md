@@ -53,7 +53,7 @@ python polymath.py -q n6DAqMFe97E -t 120
 ```bash
 python polymath.py -q all -t 120
 ```
-##### Quantize a specific songs in the library to the tempo of the song
+##### Quantize a specific songs in the library to the tempo of the song (-k)
 ```bash
 python polymath.py -q n6DAqMFe97E -k
 ```
