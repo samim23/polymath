@@ -1,13 +1,13 @@
 
 # Polymath
 
-Polymath uses machine learning to convert any music library (e.g from Hard-Drive or YouTube) into a music production sample-library. All songs are automatically separated into stems *(beats, bass, etc.)*, quantized to the same tempo and beat-grid *(e.g. 120bpm)* and analyzed for musical structure *(e.g. verse, chorus, etc.)*, key (*e.g C4, E3, etc.*) and other infos (*timbre, loudness, etc.*). The generated sample-library is conveniently searchable for related songs. Polymath is a game-changing workflow for music producers and DJs (*and ML audio devs*)
+Polymath uses machine learning to convert any music library (*e.g from Hard-Drive or YouTube*) into a music production sample-library. The tool automatically separates songs into stems (*beats, bass, etc.*), quantizes them to the same tempo and beat-grid (*e.g. 120bpm*) and analyzes musical structure (*e.g. verse, chorus, etc.), key (e.g C4, E3, etc.) and other infos (timbre, loudness, etc.). The result is a searchable sample library that streamlines the workflow for music producers, DJs, and ML audio developers.
 
 <p align="center"><img  width="95%"  src="https://samim.io/static/upload/Frame_15.png" /></p>
 
-**Use-case example:** With Polymath you can very easily grab a beat from a Funkadelic tune, grab a bassline from an Tito Puente tune, grab fitting horns from a Fela Kuti tune and mash them together in your DAW.
+**Use-case example:** Polymath makes it effortless to combine elements from different songs to create unique compositions. Simply grab a beat from a Funkadelic track, a bassline from a Tito Puente piece, and fitting horns from a Fela Kuti song, and seamlessly integrate them into your DAW.
 
-**Use-case example:** With Polymath you can take any tune and find tunes in the library that are related (key, etc.). It can do it in a continuous loop, making it easy to create a smooth 1h DJ Set.
+**Use-case example:** Polymath enables you to effortlessly discover tracks that are musically related to any song in your library, based on key and other factors. It makes it a breeze to create a polished, hour-long DJ set.
 
 ## How does it work?
 - Music Source Separation is performed with the [Demucs](https://github.com/facebookresearch/demucs) neural network
