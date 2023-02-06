@@ -70,7 +70,7 @@ python polymath.py -s n6DAqMFe97E -sa 10 -q all -t 120
 ```
 ##### Include BPM as search criteria  (-st)
 ```bash
-python polymath.py -s n6DAqMFe97E -sa 10 -q all -t 120 -st
+python polymath.py -s n6DAqMFe97E -sa 10 -q all -t 120 -st -k
 ```
 Similar songs are automatically found and optionally quantized and saved to the folder "/processed". This makes it easy to create for example an hour long mix of songs that perfectly match one after the other. 
 
