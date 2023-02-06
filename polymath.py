@@ -23,6 +23,7 @@ from sf_segmenter.segmenter import Segmenter
 
 ##########################################
 ################ POLYMATH ################
+############## by samim.io ###############
 ##########################################
 
 class Video:
@@ -35,7 +36,7 @@ class Video:
         self.video_features = []
         self.audio_features = []
 
-################## VIDEO DOWNLOAD ##################
+################## VIDEO PROCESSING ##################
 
 def audio_extract(vidobj,file):
     print("audio_extract",file)
@@ -86,7 +87,9 @@ def video_process(vids,videos):
             pickle.dump( videos, open( "library/database.p", "wb" ) )
             print("video_process DONE",len(videos))
     return videos
-    
+
+################## AUDIO PROCESSING ##################
+
 def audio_directory_process(vids, videos):
     filesToProcess = []
     for vid in vids:
@@ -438,7 +441,7 @@ def get_audio_features(file,file_id):
     }
     return audio_features
 
-################## SEARCH NEAREST CLIP ##################
+################## SEARCH NEAREST AUDIO ##################
 
 previous_list = []
 
