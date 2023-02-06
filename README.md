@@ -5,7 +5,7 @@ Polymath uses machine learning to convert any music library (*e.g from Hard-Driv
 
 <p align="center"><img  width="95%"  src="https://samim.io/static/upload/Frame_15.png" /></p>
 
-**Use-case:** Polymath makes it effortless to combine elements from different songs to create unique new compositions: Simply grab a beat from a Funkadelic track, a bassline from a Tito Puente piece, and fitting horns from a Fela Kuti song, and seamlessly integrate them into your DAW in record time. Polymath's search capability enables you to discover tracks that are musically related to any song in your library, making it a breeze to create a polished, hour-long mash-up DJ set.
+**Use-case:** Polymath makes it effortless to combine elements from different songs to create unique new compositions: Simply grab a beat from a Funkadelic track, a bassline from a Tito Puente piece, and fitting horns from a Fela Kuti song, and seamlessly integrate them into your DAW in record time. Using Polymath's search capability to discover related tracks, creating a polished, hour-long mash-up DJ set is a breeze.
 
 
 ## How does it work?
