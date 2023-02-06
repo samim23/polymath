@@ -5,7 +5,7 @@ Polymath uses machine learning to convert any music library (*e.g from Hard-Driv
 
 <p align="center"><img  width="95%"  src="https://samim.io/static/upload/Frame_15.png" /></p>
 
-**Use-case:** Polymath makes it effortless to combine elements from different songs to create unique new compositions: Simply grab a beat from a Funkadelic track, a bassline from a Tito Puente piece, and fitting horns from a Fela Kuti song, and seamlessly integrate them into your DAW in record time. Using Polymath's search capability to discover related tracks, creating a polished, hour-long mash-up DJ set is a breeze.
+**Use-case:** Polymath makes it effortless to combine elements from different songs to create unique new compositions: Simply grab a beat from a Funkadelic track, a bassline from a Tito Puente piece, and fitting horns from a Fela Kuti song, and seamlessly integrate them into your DAW in record time. Using Polymath's search capability to discover related tracks, it is a breeze to create a polished, hour-long mash-up DJ set.
 
 
 ## How does it work?
@@ -60,7 +60,7 @@ python polymath.py -q n6DAqMFe97E -k
 Songs are automatically quantized to the same tempo and beat-grid and saved to the folder “/processed”.
 
 ### 3. Search for similar songs in the Polymath Library
-##### Search for similar songs based on a specific songs in the library (-s = query audio file ID, -sa = results amount)
+##### Search for 10 similar songs based on a specific songs in the library (-s = database audio file ID, -sa = results amount)
 ```bash
 python polymath.py -s n6DAqMFe97E -sa 10
 ```
@@ -70,7 +70,7 @@ python polymath.py -s n6DAqMFe97E -sa 10 -q all -t 120
 ```
 ##### Include BPM as search criteria  (-st)
 ```bash
-python polymath.py -s n6DAqMFe97E -sa 10 -q all -t 120 -st -k
+python polymath.py -s n6DAqMFe97E -sa 10 -q all -t 120 -st
 ```
 Similar songs are automatically found and optionally quantized and saved to the folder "/processed". This makes it easy to create for example an hour long mix of songs that perfectly match one after the other. 
 
