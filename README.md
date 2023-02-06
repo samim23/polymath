@@ -6,7 +6,7 @@ Polymath uses machine learning to convert any music library (*e.g from Hard-Driv
 <p align="center"><img  width="95%"  src="https://samim.io/static/upload/Frame_15.png" /></p>
 
 ## Use-cases
-Polymath makes it effortless to combine elements from different songs to create unique new compositions: Simply grab a beat from a Funkadelic track, a bassline from a Tito Puente piece, and fitting horns from a Fela Kuti song, and seamlessly integrate them into your DAW in record time. Using Polymath's search capability to discover related tracks, it is a breeze to create a polished, hour-long mash-up DJ set. For ML developers, Polymath simplifies the process of creating a large music dataset, for training generative models. etc.
+Polymath makes it effortless to combine elements from different songs to create unique new compositions: Simply grab a beat from a Funkadelic track, a bassline from a Tito Puente piece, and fitting horns from a Fela Kuti song, and seamlessly integrate them into your DAW in record time. Using Polymath's search capability to discover related tracks, it is a breeze to create a polished, hour-long mash-up DJ set. For ML developers, Polymath simplifies the process of creating a large music dataset, for training generative models, etc.
 
 ## How does it work?
 - Music Source Separation is performed with the [Demucs](https://github.com/facebookresearch/demucs) neural network
