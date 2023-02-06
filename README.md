@@ -45,7 +45,7 @@ python polymath.py -a /path/to/audiolib/
 Songs are automatically analyzed once which takes some time. Once in the database, they can be access rapidly. The database is stored in the folder "/library/database.p". To reset everything, simply delete it.
 
 ### 2. Quantize songs in the Polymath Library
-##### Quantize a specific songs in the library to tempo 120 BPM
+##### Quantize a specific songs in the library to tempo 120 BPM (-q = database audio file ID, -t = tempo in BPM)
 ```bash
 python polymath.py -q n6DAqMFe97E -t 120
 ```
