@@ -38,7 +38,7 @@ class Video:
 
 def audio_extract(vidobj,file):
     print("audio_extract",file)
-    command = "ffmpeg -hide_banner -loglevel panic -i "+file+" -ab 160k -ac 2 -ar 44100 -vn -y " + vidobj.audio
+    command = f"ffmpeg -hide_banner -loglevel panic -i {file} -ab 160k -ac 2 -ar 44100 -vn -y {vidobj.audio}"
     subprocess.call(command,shell=True)
     return vidobj.audio
 
@@ -56,7 +56,7 @@ def video_download(vidobj,url):
     if 'entries' in result: video = result['entries'][0] # Can be a playlist or a list of videos
     else: video = result  # Just a video
 
-    filename = "library/" + video['id'] + "." + video['ext']
+    filename = f"library/{video['id']}.{video['ext']}"
     print("video_download: filename",filename,"extension",video['ext'])
     vidobj.id = video['id']
     vidobj.name = video['title']
@@ -77,8 +77,8 @@ def video_process(vids,videos):
 
         # analyse videos and save to disk
         if download_vid:
-            video = Video(vid,vid,"library/"+vid+".wav")
-            video = video_download(video,"https://www.youtube.com/watch?v="+vid)
+            video = Video(vid,vid,f"library/{vid}.wav")
+            video = video_download(video,f"https://www.youtube.com/watch?v={vid}")
             audio_extract(video,video.video)
             videos.append(video)
             print("NAME",video.name,"VIDEO",video.video,"AUDIO",video.audio)
@@ -114,7 +114,7 @@ def audio_process(vids, videos):
         # generate a unique ID based on file path and name
         hash_object = hashlib.sha256(vid.encode())
         audioid = hash_object.hexdigest()
-        audioid = audioname + '_' + audioid
+        audioid = f"{audioname}_{audioid}"
 
         # check if id already in db
         process_audio = True
@@ -129,7 +129,7 @@ def audio_process(vids, videos):
             # convert mp3 to wav and save it
             print('converting mp3 to wav:', vid)
             y, sr = librosa.load(vid)
-            path = os.getcwd() + "/library/"+audioid+".wav"
+            path = f"{os.getcwd()}/library/{audioid}.wav"
             # resample to 44100k if required
             if sr != 44100:
                 print('converting audio file to 44100:', vid)
@@ -140,7 +140,7 @@ def audio_process(vids, videos):
         # check if is wav and copy it to local folder
         elif vid.endswith(".wav"):
             path1 = vid
-            path2 = os.getcwd() + "/library/"+audioid+".wav"
+            path2 = f"{os.getcwd()}/library/{audioid}.wav"
             y, sr = librosa.load(vid)
             if sr != 44100:
                 print('converting audio file to 44100:', vid)
@@ -219,7 +219,7 @@ def get_loudness(file):
         audio, rate = load_and_trim(file)
         loudness = loudness_of(audio)
     except Exception as e:
-        sys.stderr.write("Failed to run on %s: %s\n" % (file, e))
+        sys.stderr.write(f"Failed to run on {file}: {e}\n")
     return loudness
 
 def get_volume(file):
@@ -231,7 +231,7 @@ def get_volume(file):
         avg_volume = np.mean(volume)
         loudness = loudness_of(audio)
     except Exception as e:
-        sys.stderr.write("Failed to get Volume and Loudness on %s: %s\n" % (file, e))
+        sys.stderr.write(f"Failed to get Volume and Loudness on {file}: {e}\n")
     return volume, avg_volume, loudness
 
 def get_key(freq):
@@ -362,18 +362,18 @@ def quantizeAudio(vid, bpm=120, keepOriginalBpm = False, pitchShiftFirst = False
     strechedaudio = pyrb.timemap_stretch(y, sr, time_map)
 
     # save audio to disk
-    path = os.getcwd() + "/processed/" + vid.id +  " - " + vid.name + " - Key: " + vid.audio_features['key']  + " - Freq: " + str(round(vid.audio_features['frequency'],2)) + " - Timbre: " + str(round(vid.audio_features['timbre'],2)) + " - BPM Original: " + str(int(vid.audio_features['tempo'])) + " - BPM: " + str(bpm) +".wav"
+    path = f"{os.getcwd()}/processed/{vid.id} - {vid.name} - Key: {vid.audio_features['key']} - Freq: {str(round(vid.audio_features['frequency'], 2))} - Timbre: {str(round(vid.audio_features['timbre'], 2))} - BPM Original: {str(int(vid.audio_features['tempo']))} - BPM: {str(bpm)}.wav"
     sf.write(path, strechedaudio, sr)
 
     # process stems
     stems = ['bass', 'drums', 'guitar', 'other', 'piano', 'vocals']
     for stem in stems:
-        path = os.getcwd() + "/separated/htdemucs_6s/"+vid.id+"/"+stem+".wav"
-        print('- Quantize Audio: ' + stem)
+        path = f"{os.getcwd()}/separated/htdemucs_6s/{vid.id}/{stem}.wav"
+        print(f"- Quantize Audio: {stem}")
         y, sr = librosa.load(path, sr=None)
         strechedaudio = pyrb.timemap_stretch(y, sr, time_map)
         # save stems to disk
-        path = os.getcwd() + "/processed/" + vid.id +  " - " + vid.name + " - Stem: " + stem +  " - Key: " + vid.audio_features['key']  + " - Freq: " + str(round(vid.audio_features['frequency'],2)) + " - Timbre: " + str(round(vid.audio_features['timbre'],2)) + " - BPM Original: " + str(int(vid.audio_features['tempo'])) + " - BPM: " + str(bpm) +".wav"
+        path = f"{os.getcwd()}/processed/{vid.id} - {vid.name} - Stem: {stem} - Key: {vid.audio_features['key']} - Freq: {str(round(vid.audio_features['frequency'], 2))} - Timbre: {str(round(vid.audio_features['timbre'], 2))} - BPM Original: {str(int(vid.audio_features['tempo']))} - BPM: {str(bpm)}.wav"
         sf.write(path, strechedaudio, sr)
 
     # metronome click (optinal)
@@ -382,7 +382,7 @@ def quantizeAudio(vid, bpm=120, keepOriginalBpm = False, pitchShiftFirst = False
         clicks_audio = librosa.clicks(times=fixed_beat_times, sr=sr)
         print(len(clicks_audio), len(strechedaudio))
         clicks_audio = clicks_audio[:len(strechedaudio)] 
-        sf.write(os.getcwd() + "/processed/" + vid.id + " - click.wav", clicks_audio, sr)
+        sf.write(f"{os.getcwd()}/processed/{vid.id} - click.wav", clicks_audio, sr)
 
 def get_audio_features(file,file_id):
     print("------------------------------ get_audio_features:",file_id,"------------------------------")
@@ -590,15 +590,15 @@ def main():
     #     pitchShiftFirst = True
 
     # Analyse to DB
-    print("------------------------------ Files in DB: " + str(len(videos)) + " ------------------------------")
+    print(f"------------------------------ Files in DB: {str(len(videos))} ------------------------------")
     dump_db = False
     # get/detect audio metadata
     for vid in videos:
         audio_features =[]
 
         # load features from disk
-        if os.path.isfile("library/"+vid.id+".a"):
-            audio_features = pickle.load( open("library/"+vid.id+".a", "rb" ) )
+        if os.path.isfile(f"library/{vid.id}.a"):
+            audio_features = pickle.load( open(f"library/{vid.id}.a", "rb" ) )
         # extract features
         else:
             # Is audio file from disk
@@ -607,16 +607,16 @@ def main():
                 file = vid.url
                 # if is mp3 file
                 if vid.url[-3:] == "mp3":
-                    file = os.getcwd() + "/library/"+vid.id+".wav"
+                    file = f"{os.getcwd()}/library/{vid.id}.wav"
             # Is audio file extracted from downloaded video
             else:
-                file = os.getcwd() + "/library/"+vid.id+".wav"
+                file = f"{os.getcwd()}/library/{vid.id}.wav"
 
             # Audio feature extraction
             audio_features = get_audio_features(file=file,file_id=vid.id)
 
             # Save to disk
-            pickle.dump( audio_features, open( "library/"+vid.id+".a", "wb" ) )
+            pickle.dump( audio_features, open( f"library/{vid.id}.a", "wb" ) )
         
         # assign features to video
         vid.audio_features = audio_features
