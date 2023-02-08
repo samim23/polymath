@@ -598,9 +598,11 @@ def main():
     dump_db = False
     # get/detect audio metadata
     for vid in videos:
+        feature_file = f"library/{vid.id}.a"
         # load features from disk
-        if os.path.isfile(f"library/{vid.id}.a"):
-            audio_features = pickle.load( open(f"library/{vid.id}.a", "rb" ) )
+        if os.path.isfile(feature_file):
+            with open(feature_file, "rb") as f:
+                audio_features = pickle.load(f)
         # extract features
         else:
             # Is audio file from disk
@@ -618,7 +620,8 @@ def main():
             audio_features = get_audio_features(file=file,file_id=vid.id)
 
             # Save to disk
-            pickle.dump( audio_features, open( f"library/{vid.id}.a", "wb" ) )
+            with open(feature_file, "wb") as f:
+                pickle.dump(audio_features, f)
         
         # assign features to video
         vid.audio_features = audio_features
