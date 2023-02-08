@@ -541,7 +541,6 @@ def main():
     # List of videos to download
     newvids = []
     if args.add is not None:
-        vids = []
         print("add video:",args.add,"to videos:",len(videos))
         vids = args.add.split(",")
         if "/" in args.add and not (args.add.endswith(".wav") or args.add.endswith(".mp3")):
@@ -578,8 +577,6 @@ def main():
     dump_db = False
     # get/detect audio metadata
     for vid in videos:
-        audio_features =[]
-
         # load features from disk
         if os.path.isfile(f"library/{vid.id}.a"):
             audio_features = pickle.load( open(f"library/{vid.id}.a", "rb" ) )
@@ -626,7 +623,6 @@ def main():
     searchforbpm = bool(args.searchbpm)
 
     if args.search is not None:
-        query = videos[0]
         for vid in videos:
             if vid.id == args.search:
                 query = vid
