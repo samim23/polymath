@@ -19,8 +19,6 @@ import pyrubberband as pyrb
 from yt_dlp import YoutubeDL
 from sf_segmenter.segmenter import Segmenter
 
-LIBRARY_FILENAME = "library/database.p"
-
 
 ##########################################
 ################ POLYMATH ################
@@ -36,6 +34,24 @@ class Video:
         self.audio = audio
         self.video_features = []
         self.audio_features = []
+
+### Library
+
+LIBRARY_FILENAME = "library/database.p"
+
+def write_library(videos):
+    with open(LIBRARY_FILENAME, "wb") as lib:
+        pickle.dump(videos, lib)
+
+
+def read_library():
+    try:
+        with open(LIBRARY_FILENAME, "rb") as lib:
+            return pickle.load(lib)
+    except:
+        print("No Database file found:", LIBRARY_FILENAME)
+    return []
+
 
 ################## VIDEO PROCESSING ##################
 
@@ -85,7 +101,7 @@ def video_process(vids,videos):
             audio_extract(video,video.video)
             videos.append(video)
             print("NAME",video.name,"VIDEO",video.video,"AUDIO",video.audio)
-            pickle.dump( videos, open( LIBRARY_FILENAME, "wb" ) )
+            write_library(videos)
             print("video_process DONE",len(videos))
     return videos
 
@@ -159,7 +175,7 @@ def audio_process(vids, videos):
             video.id = audioid
             video.url = vid
             videos.append(video)
-            pickle.dump( videos, open( LIBRARY_FILENAME, "wb" ) )
+            write_library(videos)
             print("Finished procesing files:",len(videos))
             
     return videos
@@ -506,12 +522,7 @@ def main():
     print("--------------------------------- POLYMATH --------------------------------- ")
     print("---------------------------------------------------------------------------- ")
     # Load DB
-    videos = []
-    try:
-        videos = pickle.load(open(LIBRARY_FILENAME, "rb"))
-        # print("Database loaded:",filename)
-    except:
-        print("No Database file found:", LIBRARY_FILENAME)
+    videos = read_library()
 
     for directory in ("processed", "library", "separated", "separated/htdemucs_6s"):
         os.makedirs(directory, exist_ok=True)
@@ -546,8 +557,8 @@ def main():
             if vid.id == args.remove:
                 videos.remove(vid)
                 break
-        pickle.dump(videos, open(LIBRARY_FILENAME, "wb"))
-    
+        write_library(videos)
+
     # List of videos to download
     newvids = []
     if args.add is not None:
@@ -613,9 +624,9 @@ def main():
         vid.audio_features = audio_features
         print(vid.id, "tempo",round(audio_features["tempo"],2),"duration",round(audio_features["duration"],2),"timbre",round(audio_features["timbre"],2),"pitch",round(audio_features["pitch"],2),"intensity",round(audio_features["intensity"],2),"segments",len(audio_features["segments_boundaries"]),"frequency",round(audio_features["frequency"],2),"key",audio_features["key"],"name",vid.name )
         #dump_db = True
-    if dump_db: 
-        pickle.dump(videos, open(LIBRARY_FILENAME, "wb"))
-    
+    if dump_db:
+        write_library(videos)
+
     print("--------------------------------------------------------------------------")
 
     # Quantize audio
