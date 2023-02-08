@@ -364,8 +364,18 @@ def quantizeAudio(vid, bpm=120, keepOriginalBpm = False, pitchShiftFirst = False
     print('- Quantize Audio: source')
     strechedaudio = pyrb.timemap_stretch(y, sr, time_map)
 
+    path_suffix = (
+        f"Key: {vid.audio_features['key']} - "
+        f"Freq: {round(vid.audio_features['frequency'], 2)} - "
+        f"Timbre: {round(vid.audio_features['timbre'], 2)} - "
+        f"BPM Original: {int(vid.audio_features['tempo'])} - "
+        f"BPM: {bpm}"
+    )
+    path_prefix = (
+        f"{os.getcwd()}/processed/{vid.id} - {vid.name}"
+    )
     # save audio to disk
-    path = f"{os.getcwd()}/processed/{vid.id} - {vid.name} - Key: {vid.audio_features['key']} - Freq: {str(round(vid.audio_features['frequency'], 2))} - Timbre: {str(round(vid.audio_features['timbre'], 2))} - BPM Original: {str(int(vid.audio_features['tempo']))} - BPM: {str(bpm)}.wav"
+    path = f"{path_prefix} - {path_suffix}.wav"
     sf.write(path, strechedaudio, sr)
 
     # process stems
@@ -376,7 +386,7 @@ def quantizeAudio(vid, bpm=120, keepOriginalBpm = False, pitchShiftFirst = False
         y, sr = librosa.load(path, sr=None)
         strechedaudio = pyrb.timemap_stretch(y, sr, time_map)
         # save stems to disk
-        path = f"{os.getcwd()}/processed/{vid.id} - {vid.name} - Stem: {stem} - Key: {vid.audio_features['key']} - Freq: {str(round(vid.audio_features['frequency'], 2))} - Timbre: {str(round(vid.audio_features['timbre'], 2))} - BPM Original: {str(int(vid.audio_features['tempo']))} - BPM: {str(bpm)}.wav"
+        path = f"{path_prefix} - Stem: {stem} - {path_suffix}.wav"
         sf.write(path, strechedaudio, sr)
 
     # metronome click (optinal)
