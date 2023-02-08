@@ -563,14 +563,10 @@ def main():
             vidargs = newvids
 
     # Tempo
-    tempo = 120
-    if args.tempo is not None:
-        tempo = int(args.tempo)
+    tempo = int(args.tempo or 120)
 
     # Quanize: Keep bpm of original audio file
-    keepOriginalBpm = False
-    if args.quantizekeepbpm:
-        keepOriginalBpm = True
+    keepOriginalBpm = bool(args.quantizekeepbpm)
 
     # WIP: Quanize: Pitch shift before quanize
     pitchShiftFirst = False
@@ -626,14 +622,8 @@ def main():
                     quantizeAudio(videos[idx], bpm=tempo, keepOriginalBpm = keepOriginalBpm, pitchShiftFirst = pitchShiftFirst)
 
     # Search
-    searchAmount = 20
-    if args.searchamount is not None:
-        searchamount = args.searchamount
-
-    # Search
-    searchforbpm = False
-    if args.searchbpm is True:
-        searchforbpm = True
+    searchamount = int(args.searchamount or 20)
+    searchforbpm = bool(args.searchbpm)
 
     if args.search is not None:
         query = videos[0]
