@@ -503,22 +503,8 @@ def main():
     except:
         print("No Database file found:", LIBRARY_FILENAME)
 
-    # Create directories
-    directory = "processed"
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-
-    directory = "library"
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-
-    directory = "separated"
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-
-    directory = "separated/htdemucs_6s"
-    if not os.path.exists(directory):
-        os.makedirs(directory)
+    for directory in ("processed", "library", "separated", "separated/htdemucs_6s"):
+        os.makedirs(directory, exist_ok=True)
     
     # Parse command line input
     parser = argparse.ArgumentParser(description='polymath')
