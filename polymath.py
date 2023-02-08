@@ -342,7 +342,7 @@ def quantizeAudio(vid, bpm=120, keepOriginalBpm = False, pitchShiftFirst = False
     # Keep Original Song BPM
     if keepOriginalBpm:
         bpm = float(vid.audio_features['tempo'])
-        print('Keep original audio file BPM:', str(vid.audio_features['tempo']))
+        print('Keep original audio file BPM:', vid.audio_features['tempo'])
     # Pitch Shift audio file to desired BPM first
     elif pitchShiftFirst: # WORK IN PROGRESS
         print('Pitch Shifting audio to desired BPM', bpm)
@@ -594,7 +594,7 @@ def main():
     #     pitchShiftFirst = True
 
     # Analyse to DB
-    print(f"------------------------------ Files in DB: {str(len(videos))} ------------------------------")
+    print(f"------------------------------ Files in DB: {len(videos)} ------------------------------")
     dump_db = False
     # get/detect audio metadata
     for vid in videos:
