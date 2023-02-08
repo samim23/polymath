@@ -19,6 +19,9 @@ import pyrubberband as pyrb
 from yt_dlp import YoutubeDL
 from sf_segmenter.segmenter import Segmenter
 
+LIBRARY_FILENAME = "library/database.p"
+
+
 ##########################################
 ################ POLYMATH ################
 ############## by samim.io ###############
@@ -82,7 +85,7 @@ def video_process(vids,videos):
             audio_extract(video,video.video)
             videos.append(video)
             print("NAME",video.name,"VIDEO",video.video,"AUDIO",video.audio)
-            pickle.dump( videos, open( "library/database.p", "wb" ) )
+            pickle.dump( videos, open( LIBRARY_FILENAME, "wb" ) )
             print("video_process DONE",len(videos))
     return videos
 
@@ -156,7 +159,7 @@ def audio_process(vids, videos):
             video.id = audioid
             video.url = vid
             videos.append(video)
-            pickle.dump( videos, open( "library/database.p", "wb" ) )
+            pickle.dump( videos, open( LIBRARY_FILENAME, "wb" ) )
             print("Finished procesing files:",len(videos))
             
     return videos
@@ -494,12 +497,11 @@ def main():
     print("---------------------------------------------------------------------------- ")
     # Load DB
     videos = []
-    filename = "library/database.p"
     try:
-        videos = pickle.load( open(filename, "rb" ) )
+        videos = pickle.load(open(LIBRARY_FILENAME, "rb"))
         # print("Database loaded:",filename)
     except:
-        print("No Database file found:",filename)
+        print("No Database file found:", LIBRARY_FILENAME)
 
     # Create directories
     directory = "processed"
@@ -548,7 +550,7 @@ def main():
             if vid.id == args.remove:
                 videos.remove(vid)
                 break
-        pickle.dump(videos, open( "library/database.p", "wb" ))
+        pickle.dump(videos, open(LIBRARY_FILENAME, "wb"))
     
     # List of videos to download
     newvids = []
@@ -623,7 +625,7 @@ def main():
         print(vid.id, "tempo",round(audio_features["tempo"],2),"duration",round(audio_features["duration"],2),"timbre",round(audio_features["timbre"],2),"pitch",round(audio_features["pitch"],2),"intensity",round(audio_features["intensity"],2),"segments",len(audio_features["segments_boundaries"]),"frequency",round(audio_features["frequency"],2),"key",audio_features["key"],"name",vid.name )
         #dump_db = True
     if dump_db: 
-        pickle.dump( videos, open( "library/database.p", "wb" ) )
+        pickle.dump(videos, open(LIBRARY_FILENAME, "wb"))
     
     print("--------------------------------------------------------------------------")
 
