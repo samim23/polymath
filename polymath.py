@@ -625,7 +625,18 @@ def main():
         
         # assign features to video
         vid.audio_features = audio_features
-        print(vid.id, "tempo",round(audio_features["tempo"],2),"duration",round(audio_features["duration"],2),"timbre",round(audio_features["timbre"],2),"pitch",round(audio_features["pitch"],2),"intensity",round(audio_features["intensity"],2),"segments",len(audio_features["segments_boundaries"]),"frequency",round(audio_features["frequency"],2),"key",audio_features["key"],"name",vid.name )
+        print(
+            vid.id,
+            "tempo", round(audio_features["tempo"], 2),
+            "duration", round(audio_features["duration"], 2),
+            "timbre", round(audio_features["timbre"], 2),
+            "pitch", round(audio_features["pitch"], 2),
+            "intensity", round(audio_features["intensity"], 2),
+            "segments", len(audio_features["segments_boundaries"]),
+            "frequency", round(audio_features["frequency"], 2),
+            "key", audio_features["key"],
+            "name", vid.name,
+        )
         #dump_db = True
     if dump_db:
         write_library(videos)
@@ -650,14 +661,24 @@ def main():
         for vid in videos:
             if vid.id == args.search:
                 query = vid
-                print('Audio files related to:', query.id, "- Key:", query.audio_features['key'], "- Tempo:", int(query.audio_features['tempo']), ' - ', query.name)
+                print(
+                    'Audio files related to:', query.id,
+                    "- Key:", query.audio_features['key'],
+                    "- Tempo:", int(query.audio_features['tempo']),
+                    ' - ', query.name,
+                )
                 if args.quantize is not None:
                     quantizeAudio(query, bpm=tempo, keepOriginalBpm = keepOriginalBpm, pitchShiftFirst = pitchShiftFirst)
                 i = 0
                 while i < searchamount:
                     nearest = get_nearest(query, videos, tempo, searchforbpm)
                     query = nearest
-                    print("- Relate:", query.id, "- Key:", query.audio_features['key'], "- Tempo:", int(query.audio_features['tempo']), ' - ', query.name)
+                    print(
+                        "- Relate:", query.id,
+                        "- Key:", query.audio_features['key'],
+                        "- Tempo:", int(query.audio_features['tempo']),
+                        ' - ', query.name,
+                    )
                     if args.quantize is not None:
                         quantizeAudio(query, bpm=tempo, keepOriginalBpm = keepOriginalBpm, pitchShiftFirst = pitchShiftFirst)
                     i += 1
