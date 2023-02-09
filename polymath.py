@@ -147,7 +147,7 @@ def audio_process(vids, videos):
             if sr != 44100:
                 print('converting audio file to 44100:', vid)
                 y = librosa.resample(y, orig_sr=sr, target_sr=44100)
-                sf.write(path, y, 44100)
+                sf.write(path2, y, 44100)
             else:
                 shutil.copy2(path1, path2)
             vid = path2
