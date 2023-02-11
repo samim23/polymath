@@ -381,11 +381,11 @@ def quantizeAudio(vid, bpm=120, keepOriginalBpm = False, pitchShiftFirst = False
     strechedaudio = pyrb.timemap_stretch(y, sr, time_map)
 
     path_suffix = (
-        f"Key: {vid.audio_features['key']} - "
-        f"Freq: {round(vid.audio_features['frequency'], 2)} - "
-        f"Timbre: {round(vid.audio_features['timbre'], 2)} - "
-        f"BPM Original: {int(vid.audio_features['tempo'])} - "
-        f"BPM: {bpm}"
+        f"Key {vid.audio_features['key']} - "
+        f"Freq {round(vid.audio_features['frequency'], 2)} - "
+        f"Timbre {round(vid.audio_features['timbre'], 2)} - "
+        f"BPM Original {int(vid.audio_features['tempo'])} - "
+        f"BPM {bpm}"
     )
     path_prefix = (
         f"{os.getcwd()}/processed/{vid.id} - {vid.name}"
