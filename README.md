@@ -19,9 +19,14 @@ Polymath makes it effortless to combine elements from different songs to create 
 
 You will need at least Python 3.7. From your terminal run:
 ```bash
-git clone git@github.com:samim23/polymath.git
+git clone https://github.com/samim23/polymath
 cd polymath
 pip install -r requirements.txt
+```
+If you are on MacOS, run these commands before installation:
+```bash
+pip install tensorflow-macos
+pip install tensorflow-metal
 ```
 
 ## Run Polymath
