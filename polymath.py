@@ -356,7 +356,7 @@ def quantizeAudio(vid, bpm=120, keepOriginalBpm = False, pitchShiftFirst = False
             time_map.append(new_member)
 
     # add ending to time map
-    new_member = (len(y+1), len(y+1))
+    new_member = (len(y+1), len(y+1) * (tempo / bpm))
     time_map.append(new_member)
 
     # time strech audio
