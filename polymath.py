@@ -342,6 +342,9 @@ def quantizeAudio(vid, bpm=120, keepOriginalBpm = False, pitchShiftFirst = False
     tempo, beats = librosa.beat.beat_track(sr=sr, onset_envelope=librosa.onset.onset_strength(y=y_percussive, sr=sr), trim=False)
     beat_frames = librosa.frames_to_samples(beats)
 
+    original_length = len(y+1)
+    new_length = original_length * (tempo / bpm)
+
     # generate metronome
     fixed_beat_times = []
     for i in range(len(beat_frames)):
@@ -351,12 +354,11 @@ def quantizeAudio(vid, bpm=120, keepOriginalBpm = False, pitchShiftFirst = False
     # construct time map
     time_map = []
     for i in range(len(beat_frames)):
-        if fixed_beat_frames[i] < len(y+1):
-            new_member = (beat_frames[i], fixed_beat_frames[i])
-            time_map.append(new_member)
+        new_member = (beat_frames[i], fixed_beat_frames[i])
+        time_map.append(new_member)
 
     # add ending to time map
-    new_member = (len(y+1), len(y+1) * (tempo / bpm))
+    new_member = (original_length, new_length)
     time_map.append(new_member)
 
     # time strech audio
