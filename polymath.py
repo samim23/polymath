@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-from __future__ import unicode_literals
-from __future__ import print_function
 
 import os
 import sys
@@ -21,6 +19,7 @@ import pyrubberband as pyrb
 from yt_dlp import YoutubeDL
 from sf_segmenter.segmenter import Segmenter
 
+
 ##########################################
 ################ POLYMATH ################
 ############## by samim.io ###############
@@ -36,11 +35,29 @@ class Video:
         self.video_features = []
         self.audio_features = []
 
+### Library
+
+LIBRARY_FILENAME = "library/database.p"
+
+def write_library(videos):
+    with open(LIBRARY_FILENAME, "wb") as lib:
+        pickle.dump(videos, lib)
+
+
+def read_library():
+    try:
+        with open(LIBRARY_FILENAME, "rb") as lib:
+            return pickle.load(lib)
+    except:
+        print("No Database file found:", LIBRARY_FILENAME)
+    return []
+
+
 ################## VIDEO PROCESSING ##################
 
 def audio_extract(vidobj,file):
     print("audio_extract",file)
-    command = "ffmpeg -hide_banner -loglevel panic -i "+file+" -ab 160k -ac 2 -ar 44100 -vn -y " + vidobj.audio
+    command = f"ffmpeg -hide_banner -loglevel panic -i {file} -ab 160k -ac 2 -ar 44100 -vn -y {vidobj.audio}"
     subprocess.call(command,shell=True)
     return vidobj.audio
 
@@ -58,7 +75,7 @@ def video_download(vidobj,url):
     if 'entries' in result: video = result['entries'][0] # Can be a playlist or a list of videos
     else: video = result  # Just a video
 
-    filename = "library/" + video['id'] + "." + video['ext']
+    filename = f"library/{video['id']}.{video['ext']}"
     print("video_download: filename",filename,"extension",video['ext'])
     vidobj.id = video['id']
     vidobj.name = video['title']
@@ -79,12 +96,12 @@ def video_process(vids,videos):
 
         # analyse videos and save to disk
         if download_vid:
-            video = Video(vid,vid,"library/"+vid+".wav")
-            video = video_download(video,"https://www.youtube.com/watch?v="+vid)
+            video = Video(vid,vid,f"library/{vid}.wav")
+            video = video_download(video,f"https://www.youtube.com/watch?v={vid}")
             audio_extract(video,video.video)
             videos.append(video)
             print("NAME",video.name,"VIDEO",video.video,"AUDIO",video.audio)
-            pickle.dump( videos, open( "library/database.p", "wb" ) )
+            write_library(videos)
             print("video_process DONE",len(videos))
     return videos
 
@@ -116,7 +133,7 @@ def audio_process(vids, videos):
         # generate a unique ID based on file path and name
         hash_object = hashlib.sha256(vid.encode())
         audioid = hash_object.hexdigest()
-        audioid = audioname + '_' + audioid
+        audioid = f"{audioname}_{audioid}"
 
         # check if id already in db
         process_audio = True
@@ -131,7 +148,7 @@ def audio_process(vids, videos):
             # convert mp3 to wav and save it
             print('converting mp3 to wav:', vid)
             y, sr = librosa.load(vid)
-            path = os.getcwd() + "/library/"+audioid+".wav"
+            path = f"{os.getcwd()}/library/{audioid}.wav"
             # resample to 44100k if required
             if sr != 44100:
                 print('converting audio file to 44100:', vid)
@@ -142,7 +159,7 @@ def audio_process(vids, videos):
         # check if is wav and copy it to local folder
         elif vid.endswith(".wav"):
             path1 = vid
-            path2 = os.getcwd() + "/library/"+audioid+".wav"
+            path2 = f"{os.getcwd()}/library/{audioid}.wav"
             y, sr = librosa.load(vid)
             if sr != 44100:
                 print('converting audio file to 44100:', vid)
@@ -158,7 +175,7 @@ def audio_process(vids, videos):
             video.id = audioid
             video.url = vid
             videos.append(video)
-            pickle.dump( videos, open( "library/database.p", "wb" ) )
+            write_library(videos)
             print("Finished procesing files:",len(videos))
             
     return videos
@@ -221,7 +238,7 @@ def get_loudness(file):
         audio, rate = load_and_trim(file)
         loudness = loudness_of(audio)
     except Exception as e:
-        sys.stderr.write("Failed to run on %s: %s\n" % (file, e))
+        sys.stderr.write(f"Failed to run on {file}: {e}\n")
     return loudness
 
 def get_volume(file):
@@ -233,7 +250,7 @@ def get_volume(file):
         avg_volume = np.mean(volume)
         loudness = loudness_of(audio)
     except Exception as e:
-        sys.stderr.write("Failed to get Volume and Loudness on %s: %s\n" % (file, e))
+        sys.stderr.write(f"Failed to get Volume and Loudness on {file}: {e}\n")
     return volume, avg_volume, loudness
 
 def get_key(freq):
@@ -325,7 +342,7 @@ def quantizeAudio(vid, bpm=120, keepOriginalBpm = False, pitchShiftFirst = False
     # Keep Original Song BPM
     if keepOriginalBpm:
         bpm = float(vid.audio_features['tempo'])
-        print('Keep original audio file BPM:', str(vid.audio_features['tempo']))
+        print('Keep original audio file BPM:', vid.audio_features['tempo'])
     # Pitch Shift audio file to desired BPM first
     elif pitchShiftFirst: # WORK IN PROGRESS
         print('Pitch Shifting audio to desired BPM', bpm)
@@ -363,19 +380,29 @@ def quantizeAudio(vid, bpm=120, keepOriginalBpm = False, pitchShiftFirst = False
     print('- Quantize Audio: source')
     strechedaudio = pyrb.timemap_stretch(y, sr, time_map)
 
+    path_suffix = (
+        f"Key: {vid.audio_features['key']} - "
+        f"Freq: {round(vid.audio_features['frequency'], 2)} - "
+        f"Timbre: {round(vid.audio_features['timbre'], 2)} - "
+        f"BPM Original: {int(vid.audio_features['tempo'])} - "
+        f"BPM: {bpm}"
+    )
+    path_prefix = (
+        f"{os.getcwd()}/processed/{vid.id} - {vid.name}"
+    )
     # save audio to disk
-    path = os.getcwd() + "/processed/" + vid.id +  " - " + vid.name + " - Key: " + vid.audio_features['key']  + " - Freq: " + str(round(vid.audio_features['frequency'],2)) + " - Timbre: " + str(round(vid.audio_features['timbre'],2)) + " - BPM Original: " + str(int(vid.audio_features['tempo'])) + " - BPM: " + str(bpm) +".wav"
+    path = f"{path_prefix} - {path_suffix}.wav"
     sf.write(path, strechedaudio, sr)
 
     # process stems
     stems = ['bass', 'drums', 'guitar', 'other', 'piano', 'vocals']
     for stem in stems:
-        path = os.getcwd() + "/separated/htdemucs_6s/"+vid.id+"/"+stem+".wav"
-        print('- Quantize Audio: ' + stem)
+        path = f"{os.getcwd()}/separated/htdemucs_6s/{vid.id}/{stem}.wav"
+        print(f"- Quantize Audio: {stem}")
         y, sr = librosa.load(path, sr=None)
         strechedaudio = pyrb.timemap_stretch(y, sr, time_map)
         # save stems to disk
-        path = os.getcwd() + "/processed/" + vid.id +  " - " + vid.name + " - Stem: " + stem +  " - Key: " + vid.audio_features['key']  + " - Freq: " + str(round(vid.audio_features['frequency'],2)) + " - Timbre: " + str(round(vid.audio_features['timbre'],2)) + " - BPM Original: " + str(int(vid.audio_features['tempo'])) + " - BPM: " + str(bpm) +".wav"
+        path = f"{path_prefix} - Stem: {stem} - {path_suffix}.wav"
         sf.write(path, strechedaudio, sr)
 
     # metronome click (optinal)
@@ -384,7 +411,7 @@ def quantizeAudio(vid, bpm=120, keepOriginalBpm = False, pitchShiftFirst = False
         clicks_audio = librosa.clicks(times=fixed_beat_times, sr=sr)
         print(len(clicks_audio), len(strechedaudio))
         clicks_audio = clicks_audio[:len(strechedaudio)] 
-        sf.write(os.getcwd() + "/processed/" + vid.id + " - click.wav", clicks_audio, sr)
+        sf.write(f"{os.getcwd()}/processed/{vid.id} - click.wav", clicks_audio, sr)
 
 def get_audio_features(file,file_id):
     print("------------------------------ get_audio_features:",file_id,"------------------------------")
@@ -495,30 +522,10 @@ def main():
     print("--------------------------------- POLYMATH --------------------------------- ")
     print("---------------------------------------------------------------------------- ")
     # Load DB
-    videos = []
-    filename = "library/database.p"
-    try:
-        videos = pickle.load( open(filename, "rb" ) )
-        # print("Database loaded:",filename)
-    except:
-        print("No Database file found:",filename)
+    videos = read_library()
 
-    # Create directories
-    directory = "processed"
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-
-    directory = "library"
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-
-    directory = "separated"
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-
-    directory = "separated/htdemucs_6s"
-    if not os.path.exists(directory):
-        os.makedirs(directory)
+    for directory in ("processed", "library", "separated", "separated/htdemucs_6s"):
+        os.makedirs(directory, exist_ok=True)
     
     # Parse command line input
     parser = argparse.ArgumentParser(description='polymath')
@@ -550,12 +557,11 @@ def main():
             if vid.id == args.remove:
                 videos.remove(vid)
                 break
-        pickle.dump(videos, open( "library/database.p", "wb" ))
-    
+        write_library(videos)
+
     # List of videos to download
     newvids = []
     if args.add is not None:
-        vids = []
         print("add video:",args.add,"to videos:",len(videos))
         vids = args.add.split(",")
         if "/" in args.add and not (args.add.endswith(".wav") or args.add.endswith(".mp3")):
@@ -577,14 +583,10 @@ def main():
             vidargs = newvids
 
     # Tempo
-    tempo = 120
-    if args.tempo is not None:
-        tempo = int(args.tempo)
+    tempo = int(args.tempo or 120)
 
     # Quanize: Keep bpm of original audio file
-    keepOriginalBpm = False
-    if args.quantizekeepbpm:
-        keepOriginalBpm = True
+    keepOriginalBpm = bool(args.quantizekeepbpm)
 
     # WIP: Quanize: Pitch shift before quanize
     pitchShiftFirst = False
@@ -592,15 +594,15 @@ def main():
     #     pitchShiftFirst = True
 
     # Analyse to DB
-    print("------------------------------ Files in DB: " + str(len(videos)) + " ------------------------------")
+    print(f"------------------------------ Files in DB: {len(videos)} ------------------------------")
     dump_db = False
     # get/detect audio metadata
     for vid in videos:
-        audio_features =[]
-
+        feature_file = f"library/{vid.id}.a"
         # load features from disk
-        if os.path.isfile("library/"+vid.id+".a"):
-            audio_features = pickle.load( open("library/"+vid.id+".a", "rb" ) )
+        if os.path.isfile(feature_file):
+            with open(feature_file, "rb") as f:
+                audio_features = pickle.load(f)
         # extract features
         else:
             # Is audio file from disk
@@ -609,24 +611,36 @@ def main():
                 file = vid.url
                 # if is mp3 file
                 if vid.url[-3:] == "mp3":
-                    file = os.getcwd() + "/library/"+vid.id+".wav"
+                    file = f"{os.getcwd()}/library/{vid.id}.wav"
             # Is audio file extracted from downloaded video
             else:
-                file = os.getcwd() + "/library/"+vid.id+".wav"
+                file = f"{os.getcwd()}/library/{vid.id}.wav"
 
             # Audio feature extraction
             audio_features = get_audio_features(file=file,file_id=vid.id)
 
             # Save to disk
-            pickle.dump( audio_features, open( "library/"+vid.id+".a", "wb" ) )
+            with open(feature_file, "wb") as f:
+                pickle.dump(audio_features, f)
         
         # assign features to video
         vid.audio_features = audio_features
-        print(vid.id, "tempo",round(audio_features["tempo"],2),"duration",round(audio_features["duration"],2),"timbre",round(audio_features["timbre"],2),"pitch",round(audio_features["pitch"],2),"intensity",round(audio_features["intensity"],2),"segments",len(audio_features["segments_boundaries"]),"frequency",round(audio_features["frequency"],2),"key",audio_features["key"],"name",vid.name )
+        print(
+            vid.id,
+            "tempo", round(audio_features["tempo"], 2),
+            "duration", round(audio_features["duration"], 2),
+            "timbre", round(audio_features["timbre"], 2),
+            "pitch", round(audio_features["pitch"], 2),
+            "intensity", round(audio_features["intensity"], 2),
+            "segments", len(audio_features["segments_boundaries"]),
+            "frequency", round(audio_features["frequency"], 2),
+            "key", audio_features["key"],
+            "name", vid.name,
+        )
         #dump_db = True
-    if dump_db: 
-        pickle.dump( videos, open( "library/database.p", "wb" ) )
-    
+    if dump_db:
+        write_library(videos)
+
     print("--------------------------------------------------------------------------")
 
     # Quantize audio
@@ -640,28 +654,31 @@ def main():
                     quantizeAudio(videos[idx], bpm=tempo, keepOriginalBpm = keepOriginalBpm, pitchShiftFirst = pitchShiftFirst)
 
     # Search
-    searchAmount = 20
-    if args.searchamount is not None:
-        searchamount = args.searchamount
-
-    # Search
-    searchforbpm = False
-    if args.searchbpm is True:
-        searchforbpm = True
+    searchamount = int(args.searchamount or 20)
+    searchforbpm = bool(args.searchbpm)
 
     if args.search is not None:
-        query = videos[0]
         for vid in videos:
             if vid.id == args.search:
                 query = vid
-                print('Audio files related to:', query.id, "- Key:", query.audio_features['key'], "- Tempo:", int(query.audio_features['tempo']), ' - ', query.name)
+                print(
+                    'Audio files related to:', query.id,
+                    "- Key:", query.audio_features['key'],
+                    "- Tempo:", int(query.audio_features['tempo']),
+                    ' - ', query.name,
+                )
                 if args.quantize is not None:
                     quantizeAudio(query, bpm=tempo, keepOriginalBpm = keepOriginalBpm, pitchShiftFirst = pitchShiftFirst)
                 i = 0
                 while i < searchamount:
                     nearest = get_nearest(query, videos, tempo, searchforbpm)
                     query = nearest
-                    print("- Relate:", query.id, "- Key:", query.audio_features['key'], "- Tempo:", int(query.audio_features['tempo']), ' - ', query.name)
+                    print(
+                        "- Relate:", query.id,
+                        "- Key:", query.audio_features['key'],
+                        "- Tempo:", int(query.audio_features['tempo']),
+                        ' - ', query.name,
+                    )
                     if args.quantize is not None:
                         quantizeAudio(query, bpm=tempo, keepOriginalBpm = keepOriginalBpm, pitchShiftFirst = pitchShiftFirst)
                     i += 1
