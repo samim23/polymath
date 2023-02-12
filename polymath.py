@@ -371,9 +371,8 @@ def quantizeAudio(vid, bpm=120, keepOriginalBpm = False, pitchShiftFirst = False
     # construct time map
     time_map = []
     for i in range(len(beat_frames)):
-        if fixed_beat_frames[i] < len(y+1):
-            new_member = (beat_frames[i], fixed_beat_frames[i])
-            time_map.append(new_member)
+        new_member = (beat_frames[i], fixed_beat_frames[i])
+        time_map.append(new_member)
 
     # add ending to time map
     new_length = max(new_length, time_map[i][1]+1) # ensure monotonic
