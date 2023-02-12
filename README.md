@@ -23,7 +23,7 @@ git clone https://github.com/samim23/polymath
 cd polymath
 pip install -r requirements.txt
 ```
-If you are on MacOS, run these commands before installation:
+If you are on a Mac with Apple Silicon, run these commands before installation:
 ```bash
 pip install tensorflow-macos
 pip install tensorflow-metal
