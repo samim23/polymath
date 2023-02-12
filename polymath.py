@@ -402,7 +402,7 @@ def quantizeAudio(vid, bpm=120, keepOriginalBpm = False, pitchShiftFirst = False
         y, sr = librosa.load(path, sr=None)
         strechedaudio = pyrb.timemap_stretch(y, sr, time_map)
         # save stems to disk
-        path = f"{path_prefix} - Stem: {stem} - {path_suffix}.wav"
+        path = f"{path_prefix} - Stem {stem} - {path_suffix}.wav"
         sf.write(path, strechedaudio, sr)
 
     # metronome click (optinal)
