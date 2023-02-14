@@ -110,12 +110,12 @@ def audio_directory_process(vids, videos):
     filesToProcess = []
     for vid in vids:
         path = vid
-        for pattern in ["*.wav", "*.mp3"]:
-            for filename in fnmatch.filter(os.listdir(path), pattern):
-                filepath = os.path.join(path, filename)
-                print(filepath)
-                if os.path.isfile(filepath):
-                    filesToProcess.append(filepath)
+        pattern = "*.mp3"
+        for filename in fnmatch.filter(os.listdir(path), pattern):
+            filepath = os.path.join(path, filename)
+            print(filepath)
+            if os.path.isfile(filepath):
+                filesToProcess.append(filepath)
 
     print('Found', len(filesToProcess), 'wav or mp3 files')
     if len(filesToProcess) > 0:
@@ -152,7 +152,7 @@ def audio_process(vids, videos):
             if sr != 44100:
                 print('converting audio file to 44100:', vid)
                 y = librosa.resample(y, orig_sr=sr, target_sr=44100)
-            sf.write(path, y, 44100)
+            sf.write(path, np.ravel(y), 44100)
             vid = path
 
         # check if is wav and copy it to local folder
@@ -175,7 +175,7 @@ def audio_process(vids, videos):
             video.url = vid
             videos.append(video)
             write_library(videos)
-            print("Finished processing files:",len(videos))
+            print("Finished procesing files:",len(videos))
             
     return videos
 
