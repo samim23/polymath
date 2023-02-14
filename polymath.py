@@ -18,6 +18,9 @@ import soundfile as sf
 import pyrubberband as pyrb
 from yt_dlp import YoutubeDL
 from sf_segmenter.segmenter import Segmenter
+from basic_pitch.inference import predict
+from basic_pitch import ICASSP_2022_MODEL_PATH
+from basic_pitch.inference import predict_and_save
 
 
 ##########################################
@@ -57,7 +60,7 @@ def read_library():
 
 def audio_extract(vidobj,file):
     print("audio_extract",file)
-    command = f"ffmpeg -hide_banner -loglevel panic -i {file} -ab 160k -ac 2 -ar 44100 -vn -y {vidobj.audio}"
+    command = "ffmpeg -hide_banner -loglevel panic -i "+file+" -ab 160k -ac 2 -ar 44100 -vn -y " + vidobj.audio
     subprocess.call(command,shell=True)
     return vidobj.audio
 
@@ -148,7 +151,7 @@ def audio_process(vids, videos):
             # convert mp3 to wav and save it
             print('converting mp3 to wav:', vid)
             y, sr = librosa.load(path=vid, sr=None, mono=False)
-            path = f"{os.getcwd()}/library/{audioid}.wav"
+            path = os.path.join(os.getcwd(), 'library', audioid+'.wav')
             # resample to 44100k if required
             if sr != 44100:
                 print('converting audio file to 44100:', vid)
@@ -159,7 +162,7 @@ def audio_process(vids, videos):
         # check if is wav and copy it to local folder
         elif vid.endswith(".wav"):
             path1 = vid
-            path2 = f"{os.getcwd()}/library/{audioid}.wav"
+            path2 = os.path.join(os.getcwd(), 'library', audioid+'.wav')
             y, sr = librosa.load(path=vid, sr=None, mono=False)
             if sr != 44100:
                 print('converting audio file to 44100:', vid)
@@ -388,21 +391,22 @@ def quantizeAudio(vid, bpm=120, keepOriginalBpm = False, pitchShiftFirst = False
         f"BPM {bpm}"
     )
     path_prefix = (
-        f"{os.getcwd()}/processed/{vid.id} - {vid.name}"
+        f"{vid.id} - {vid.name}"
     )
+
     # save audio to disk
-    path = f"{path_prefix} - {path_suffix}.wav"
+    path = os.path.join(os.getcwd(), 'processed', path_prefix + " - " + path_suffix +'.wav')
     sf.write(path, strechedaudio, sr)
 
     # process stems
     stems = ['bass', 'drums', 'guitar', 'other', 'piano', 'vocals']
     for stem in stems:
-        path = f"{os.getcwd()}/separated/htdemucs_6s/{vid.id}/{stem}.wav"
+        path = os.path.join(os.getcwd(), 'separated', 'htdemucs_6s', vid.id, stem +'.wav')
         print(f"- Quantize Audio: {stem}")
         y, sr = librosa.load(path, sr=None)
         strechedaudio = pyrb.timemap_stretch(y, sr, time_map)
         # save stems to disk
-        path = f"{path_prefix} - Stem {stem} - {path_suffix}.wav"
+        path = os.path.join(os.getcwd(), 'processed', path_prefix + " Stem" + stem + " - " + path_suffix +'.wav')
         sf.write(path, strechedaudio, sr)
 
     # metronome click (optinal)
@@ -411,7 +415,8 @@ def quantizeAudio(vid, bpm=120, keepOriginalBpm = False, pitchShiftFirst = False
         clicks_audio = librosa.clicks(times=fixed_beat_times, sr=sr)
         print(len(clicks_audio), len(strechedaudio))
         clicks_audio = clicks_audio[:len(strechedaudio)] 
-        sf.write(f"{os.getcwd()}/processed/{vid.id} - click.wav", clicks_audio, sr)
+        path = os.path.join(os.getcwd(), 'processed', vid.id + '- click.wav')
+        sf.write(path, clicks_audio, sr)
 
 
 def get_audio_features(file,file_id):
@@ -612,10 +617,10 @@ def main():
                 file = vid.url
                 # if is mp3 file
                 if vid.url[-3:] == "mp3":
-                    file = f"{os.getcwd()}/library/{vid.id}.wav"
+                    file = os.path.join(os.getcwd(), 'library', vid.id + '.wav')
             # Is audio file extracted from downloaded video
             else:
-                file = f"{os.getcwd()}/library/{vid.id}.wav"
+                file = os.path.join(os.getcwd(), 'library', vid.id + '.wav')
 
             # Audio feature extraction
             audio_features = get_audio_features(file=file,file_id=vid.id)
