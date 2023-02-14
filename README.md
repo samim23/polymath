@@ -15,9 +15,13 @@ Polymath makes it effortless to combine elements from different songs to create 
 - Music Quantization and Alignment are performed with [pyrubberband](https://github.com/bmcfee/pyrubberband)
 - Music Info retrieval and processing is performed with [librosa](https://github.com/librosa/librosa)
 
+## Community
+
+Join the Polymath Community on [Discord](https://discord.com/channels/1074758299477614602/1074758300253552702)
+
 ## Installation
 
-You will need at least Python 3.7 (but not greater than 3.10 if on MacOS) and 'FFmpeg' installed. From your terminal run:
+You will need at least Python 3.7 and 'FFmpeg' installed. From your terminal run:
 ```bash
 git clone https://github.com/samim23/polymath
 cd polymath
