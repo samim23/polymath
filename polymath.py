@@ -110,12 +110,12 @@ def audio_directory_process(vids, videos):
     filesToProcess = []
     for vid in vids:
         path = vid
-        pattern = "*.mp3"
-        for filename in fnmatch.filter(os.listdir(path), pattern):
-            filepath = os.path.join(path, filename)
-            print(filepath)
-            if os.path.isfile(filepath):
-                filesToProcess.append(filepath)
+        for pattern in ["*.wav", "*.mp3"]:
+            for filename in fnmatch.filter(os.listdir(path), pattern):
+                filepath = os.path.join(path, filename)
+                print(filepath)
+                if os.path.isfile(filepath):
+                    filesToProcess.append(filepath)
 
     print('Found', len(filesToProcess), 'wav or mp3 files')
     if len(filesToProcess) > 0:
@@ -175,7 +175,7 @@ def audio_process(vids, videos):
             video.url = vid
             videos.append(video)
             write_library(videos)
-            print("Finished procesing files:",len(videos))
+            print("Finished processing files:",len(videos))
             
     return videos
 
