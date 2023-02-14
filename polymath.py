@@ -18,10 +18,6 @@ import soundfile as sf
 import pyrubberband as pyrb
 from yt_dlp import YoutubeDL
 from sf_segmenter.segmenter import Segmenter
-from basic_pitch.inference import predict
-from basic_pitch import ICASSP_2022_MODEL_PATH
-from basic_pitch.inference import predict_and_save
-
 
 ##########################################
 ################ POLYMATH ################
