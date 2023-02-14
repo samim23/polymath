@@ -17,13 +17,13 @@ Polymath makes it effortless to combine elements from different songs to create 
 
 ## Installation
 
-You will need at least Python 3.7. From your terminal run:
+You will need at least Python 3.7 (but not greater than 3.10 if on MacOS). From your terminal run:
 ```bash
 git clone https://github.com/samim23/polymath
 cd polymath
 pip install -r requirements.txt
 ```
-If you are on MacOS, run these commands before installation:
+If you are on MacOS, run these commands before installation (requires Python 3.7, 3.8, 3.9 or 3.10):
 ```bash
 pip install tensorflow-macos
 pip install tensorflow-metal
