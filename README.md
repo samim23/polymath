@@ -17,7 +17,7 @@ Polymath makes it effortless to combine elements from different songs to create 
 
 ## Installation
 
-You will need at least Python 3.7 (but not greater than 3.10 if on MacOS). From your terminal run:
+You will need at least Python 3.7 (but not greater than 3.10 if on MacOS) and 'FFmpeg' installed. From your terminal run:
 ```bash
 git clone https://github.com/samim23/polymath
 cd polymath
