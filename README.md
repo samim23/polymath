@@ -21,7 +21,7 @@ Join the Polymath Community on [Discord](https://discord.com/channels/1074758299
 
 ## Installation
 
-You will need at least Python 3.7 and 'FFmpeg' installed. From your terminal run:
+You will need at least Python 3.7 and `FFmpeg` and `Tensorflow` installed. From your terminal run:
 ```bash
 git clone https://github.com/samim23/polymath
 cd polymath
