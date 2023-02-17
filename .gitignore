@@ -2,7 +2,9 @@ library/
 processed/
 separated/
 bin/
-pyvenv.cfg
 share/
 include/
 lib/
+.DS_Store
+pyvenv.cfg
+dev/null/
