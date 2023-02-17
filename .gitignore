@@ -1,3 +1,10 @@
 library/
 processed/
 separated/
+bin/
+share/
+include/
+lib/
+.DS_Store
+pyvenv.cfg
+dev/null/
