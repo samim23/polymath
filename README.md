@@ -34,6 +34,33 @@ cd polymath
 pip install -r requirements.txt
 ```
 
+## Docker setup
+
+If you have [Docker](https://www.docker.com/) installed on your system, you can use the provided `Dockerfile` to quickly build a polymath docker image (if your user is not part of the `docker` group, remember to prepend `sudo` to the following command):
+
+```bash
+docker build -t polymath ./
+```
+
+In order to exchange input and output files between your hosts system and the polymath docker container, you need to create the following four directories:
+
+- `./input`
+- `./library`
+- `./processed`
+- `./separated`
+
+Now put any files you want to process with polymath into the `input` folder.
+Then you can run polymath through docker by using the `docker run` command and pass any arguments that you would originally pass to the python command, e.g.:
+
+```bash
+docker run \
+    -v ./processed:/polymath/processed \
+    -v ./separated:/polymath/separated \
+    -v ./library:/polymath/library \
+    -v ./input:/polymath/input \
+    polymath python /polymath/polymath.py -a ./input/song1.wav
+```
+
 ## Run Polymath
 
 ### 1. Add songs to the Polymath Library
