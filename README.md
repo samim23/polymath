@@ -19,18 +19,19 @@ Polymath makes it effortless to combine elements from different songs to create 
 
 Join the Polymath Community on [Discord](https://discord.com/channels/1074758299477614602/1074758300253552702)
 
+## Requirements
+
+You need to have the following software installed on your system:
+
+- ``ffmpeg``
+
 ## Installation
 
-You will need at least Python 3.7 and `FFmpeg` and `Tensorflow` installed. From your terminal run:
+You need python version `>=3.7` and `<=3.10`. From your terminal run:
 ```bash
 git clone https://github.com/samim23/polymath
 cd polymath
 pip install -r requirements.txt
-```
-If you are on MacOS, run these commands before installation (requires Python 3.7, 3.8, 3.9 or 3.10):
-```bash
-pip install tensorflow-macos
-pip install tensorflow-metal
 ```
 
 ## Run Polymath
