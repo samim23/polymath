@@ -4,7 +4,7 @@ numpy>=1.20
 pyrubberband==0.3.0
 sf_segmenter==0.0.2
 soundfile==0.11.0
-yt_dlp==2023.1.6
+yt_dlp==2023.02.17
 demucs==4.0.0
 matplotlib
 tensorflow==2.10; sys_platform == 'windows'
