@@ -12,6 +12,7 @@ import shutil
 from math import log2, pow
 
 import numpy as np 
+import matplotlib.pyplot as plt
 import librosa
 import crepe
 import soundfile as sf
