@@ -17,7 +17,7 @@ Polymath makes it effortless to combine elements from different songs to create 
 
 ## Community
 
-Join the Polymath Community on [Discord](https://discord.com/channels/1074758299477614602/1074758300253552702)
+Join the Polymath Community on [Discord](https://discord.gg/fUb45kdx)
 
 ## Requirements
 
