@@ -1,9 +1,9 @@
 
 # Polymath
 
-Polymath uses machine learning to convert any music library (*e.g from Hard-Drive or YouTube*) into a music production sample-library. The tool automatically separates songs into stems (*beats, bass, etc.*), quantizes them to the same tempo and beat-grid (*e.g. 120bpm*) and analyzes musical structure (*e.g. verse, chorus, etc.*), key (*e.g C4, E3, etc.*) and other infos (*timbre, loudness, etc.*). The result is a searchable sample library that streamlines the workflow for music producers, DJs, and ML audio developers.
+Polymath uses machine learning to convert any music library (*e.g from Hard-Drive or YouTube*) into a music production sample-library. The tool automatically separates songs into stems (*beats, bass, etc.*), quantizes them to the same tempo and beat-grid (*e.g. 120bpm*), analyzes musical structure (*e.g. verse, chorus, etc.*), key (*e.g C4, E3, etc.*) and other infos (*timbre, loudness, etc.*), and converts audio to midi. The result is a searchable sample library that streamlines the workflow for music producers, DJs, and ML audio developers.
 
-<p align="center"><img  width="95%"  src="https://samim.io/static/upload/Frame_15.png" /></p>
+<p align="center"><img  width="95%"  src="https://samim.io/static/upload/illustration3.688a510b-bocuz8wh.png" /></p>
 
 ## Use-cases
 Polymath makes it effortless to combine elements from different songs to create unique new compositions: Simply grab a beat from a Funkadelic track, a bassline from a Tito Puente piece, and fitting horns from a Fela Kuti song, and seamlessly integrate them into your DAW in record time. Using Polymath's search capability to discover related tracks, it is a breeze to create a polished, hour-long mash-up DJ set. For ML developers, Polymath simplifies the process of creating a large music dataset, for training generative models, etc.
@@ -14,6 +14,7 @@ Polymath makes it effortless to combine elements from different songs to create 
 - Music Pitch Tracking and Key Detection are performed with [Crepe](https://github.com/marl/crepe) neural network
 - Music Quantization and Alignment are performed with [pyrubberband](https://github.com/bmcfee/pyrubberband)
 - Music Info retrieval and processing is performed with [librosa](https://github.com/librosa/librosa)
+- Music Audio to MIDI conversion is performed with [Basic Pitch](https://github.com/spotify/basic-pitch)
 
 ## Community
 
@@ -110,6 +111,14 @@ python polymath.py -s n6DAqMFe97E -sa 10 -q all -t 120
 python polymath.py -s n6DAqMFe97E -sa 10 -q all -t 120 -st -k
 ```
 Similar songs are automatically found and optionally quantized and saved to the folder "/processed". This makes it easy to create for example an hour long mix of songs that perfectly match one after the other. 
+
+### 4. Convert Audio to MIDI
+##### Convert all processed audio files and stems to MIDI (-m)
+```bash
+python polymath.py -a n6DAqMFe97E -q all -t 120 -m
+```
+Generated Midi Files are currently always 120BPM and need to be time adjusted in your DAW. This will be resolved soon. The current Audio2Midi model gives mixed results with drums/percussion. This will be resolved with additional audio2midi model options in the future.
+
 
 ## Audio Features
 
