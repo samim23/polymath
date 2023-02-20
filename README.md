@@ -117,7 +117,7 @@ Similar songs are automatically found and optionally quantized and saved to the 
 ```bash
 python polymath.py -a n6DAqMFe97E -q all -t 120 -m
 ```
-Generated Midi Files are currently always 120BPM and need to be time adjusted in your DAW. This will be resolved [soon]([https://github.com/facebookresearch/demucs](https://github.com/spotify/basic-pitch/issues/40)). The current Audio2Midi model gives mixed results with drums/percussion. This will be resolved with additional audio2midi model options in the future.
+Generated Midi Files are currently always 120BPM and need to be time adjusted in your DAW. This will be resolved [soon](https://github.com/spotify/basic-pitch/issues/40). The current Audio2Midi model gives mixed results with drums/percussion. This will be resolved with additional audio2midi model options in the future.
 
 
 ## Audio Features
