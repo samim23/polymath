@@ -3,7 +3,7 @@
 
 Polymath uses machine learning to convert any music library (*e.g from Hard-Drive or YouTube*) into a music production sample-library. The tool automatically separates songs into stems (*beats, bass, etc.*), quantizes them to the same tempo and beat-grid (*e.g. 120bpm*), analyzes musical structure (*e.g. verse, chorus, etc.*), key (*e.g C4, E3, etc.*) and other infos (*timbre, loudness, etc.*), and converts audio to midi. The result is a searchable sample library that streamlines the workflow for music producers, DJs, and ML audio developers.
 
-<p align="center"><img  width="95%"  src="https://samim.io/static/upload/illustration3.688a510b.png" /></p>
+<p align="center"><img  width="95%"  src="https://samim.io/static/upload/illustration3.688a510b-bocuz8wh.png" /></p>
 
 ## Use-cases
 Polymath makes it effortless to combine elements from different songs to create unique new compositions: Simply grab a beat from a Funkadelic track, a bassline from a Tito Puente piece, and fitting horns from a Fela Kuti song, and seamlessly integrate them into your DAW in record time. Using Polymath's search capability to discover related tracks, it is a breeze to create a polished, hour-long mash-up DJ set. For ML developers, Polymath simplifies the process of creating a large music dataset, for training generative models, etc.
