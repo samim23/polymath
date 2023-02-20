@@ -6,6 +6,7 @@ sf_segmenter==0.0.2
 soundfile==0.11.0
 yt_dlp==2023.02.17
 demucs==4.0.0
+basic-pitch==0.2.0
 matplotlib
 tensorflow==2.10; sys_platform == 'windows'
 tensorflow-macos; sys_platform == 'darwin' and platform_machine == 'arm64'
