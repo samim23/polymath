@@ -14,7 +14,7 @@ Polymath makes it effortless to combine elements from different songs to create 
 - Music Pitch Tracking and Key Detection are performed with [Crepe](https://github.com/marl/crepe) neural network
 - Music Quantization and Alignment are performed with [pyrubberband](https://github.com/bmcfee/pyrubberband)
 - Music Info retrieval and processing is performed with [librosa](https://github.com/librosa/librosa)
-- Music Audio to MIDI conversion is performed with [Basic Pitch](https://github.com/spotify/basic-pitch)
+- Music to MIDI conversion is performed with [Basic Pitch](https://github.com/spotify/basic-pitch)
 
 ## Community
 
