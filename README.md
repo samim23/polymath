@@ -51,14 +51,14 @@ In order to exchange input and output files between your hosts system and the po
 - `./separated`
 
 Now put any files you want to process with polymath into the `input` folder.
-Then you can run polymath through docker by using the `docker run` command and pass any arguments that you would originally pass to the python command, e.g.:
+Then you can run polymath through docker by using the `docker run` command and pass any arguments that you would originally pass to the python command, e.g. if you are in a linux OS call:
 
 ```bash
 docker run \
-    -v ./processed:/polymath/processed \
-    -v ./separated:/polymath/separated \
-    -v ./library:/polymath/library \
-    -v ./input:/polymath/input \
+    -v "$(pwd)"/processed:/polymath/processed \
+    -v "$(pwd)"/separated:/polymath/separated \
+    -v "$(pwd)"/library:/polymath/library \
+    -v "$(pwd)"/input:/polymath/input \
     polymath python /polymath/polymath.py -a ./input/song1.wav
 ```
 
