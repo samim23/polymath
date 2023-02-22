@@ -1,0 +1,22 @@
+name: Yahya_i191696_mlopsBuild
+on: 
+  push:
+    branches: [ Yahya_i191696 ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.9.16
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.9.16
+    - name: Install dependencies
+      run: |
+        make install
+    - name: pylint
+      run: |
+        make lint
+    - name: Test
+      run: |
+        make test
