@@ -35,6 +35,11 @@ cd polymath
 pip install -r requirements.txt
 ```
 
+If you run into an issue with basic-pitch while trying to run Polymath, run this command after your installation:
+```bash
+pip install git+https://github.com/spotify/basic-pitch.git
+```
+
 ## Docker setup
 
 If you have [Docker](https://www.docker.com/) installed on your system, you can use the provided `Dockerfile` to quickly build a polymath docker image (if your user is not part of the `docker` group, remember to prepend `sudo` to the following command):
