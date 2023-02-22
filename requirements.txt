@@ -11,4 +11,8 @@ tensorflow==2.10; sys_platform == 'windows'
 tensorflow-macos; sys_platform == 'darwin' and platform_machine == 'arm64'
 tensorflow-metal; sys_platform == 'darwin' and platform_machine == 'arm64'
 tensorflow==2.11; sys_platform != 'windows' and platform_machine != 'arm64'
-
+black
+pylint
+pytest
+pytest-cov
+click
