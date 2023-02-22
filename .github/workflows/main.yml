@@ -1,4 +1,3 @@
-name: Yahya_i191696_mlopsBuild
 on: 
   push:
     branches: [ Yahya_i191696 ]
@@ -14,7 +13,7 @@ jobs:
     - name: Install dependencies
       run: |
         make install
-    - name: pylint
+    - name: lint
       run: |
         make lint
     - name: Test
