@@ -1,7 +1,7 @@
 FROM python:3.10-bullseye
 
 RUN apt update
-RUN apt install -y make automake gcc g++ python3-dev gfortran build-essential wget libsndfile1 ffmpeg
+RUN apt install -y rubberband-cli make automake gcc g++ python3-dev gfortran build-essential wget libsndfile1 ffmpeg
 
 RUN pip install --upgrade pip
 
