@@ -1,3 +1,5 @@
+*.py[cod]
+.idea
 library/
 processed/
 separated/
