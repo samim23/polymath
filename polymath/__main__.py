@@ -9,9 +9,6 @@ import os
 import pickle
 import argparse
 
-import tensorflow as tf
-from basic_pitch import ICASSP_2022_MODEL_PATH
-
 from polymath.extract import get_audio_features
 from polymath.ingest import video_process, audio_directory_process, audio_process
 from polymath.library import write_library, read_library
@@ -88,10 +85,6 @@ def main():
 
     # MIDI
     extractmidi = bool(args.midi)
-    if extractmidi:
-        global basic_pitch_model
-        basic_pitch_model = tf.saved_model.load(str(ICASSP_2022_MODEL_PATH))
-
     # Tempo
     tempo = int(args.tempo or 120)
 
