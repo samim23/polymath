@@ -550,10 +550,6 @@ def get_nearest(query,videos,querybpm, searchforbpm):
     # print("get_nearest",nearest.id)
     return nearest
 
-def getNearest(k, array):
-    k = k / 10 # HACK
-    return min(enumerate(array), key=lambda x: abs(x[1]-k))
-
 
 ################## MAIN ##################
 
