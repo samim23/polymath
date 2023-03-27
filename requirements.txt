@@ -9,6 +9,6 @@ demucs==4.0.0
 basic-pitch==0.2.0
 matplotlib
 tensorflow==2.9; sys_platform == 'windows' or platform_machine != 'arm64'
-tensorflow-macos==2.9; sys_platform == 'darwin' and platform_machine == 'arm64'
-tensorflow-metal==2.9; sys_platform == 'darwin' and platform_machine == 'arm64'
+tensorflow-macos; sys_platform == 'darwin' and platform_machine == 'arm64'
+tensorflow-metal; sys_platform == 'darwin' and platform_machine == 'arm64'
 
