@@ -11,6 +11,7 @@ import hashlib
 import shutil
 from math import log2, pow
 
+from numba import cuda
 import numpy as np 
 import librosa
 import crepe
@@ -473,6 +474,11 @@ def get_audio_features(file,file_id,extractMidi = False):
     intensity_frames = np.matrix(CQT_sync).getT()
     pitch_frames = np.matrix(C_sync).getT()
     timbre_frames = np.matrix(M_sync).getT()
+
+    if cuda.is_available():
+        print('Cleaning up GPU memory')
+        device = cuda.get_current_device()
+        device.reset()
 
     print('8/8 split stems')
     stemsplit(file, 'htdemucs_6s')

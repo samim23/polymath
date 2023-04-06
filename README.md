@@ -40,6 +40,10 @@ If you run into an issue with basic-pitch while trying to run Polymath, run this
 pip install git+https://github.com/spotify/basic-pitch.git
 ```
 
+## GPU support
+
+Most of the libraries polymath uses come with native GPU support through cuda. Please follow the steps on https://www.tensorflow.org/install/pip to setup tensorflow for use with cuda. If you have followed these steps, tensorflow and torch will both automatically pick up the GPU and use it. This only applied to native setups, for dockerized deployments (see next section), gpu support is forthcoming
+
 ## Docker setup
 
 If you have [Docker](https://www.docker.com/) installed on your system, you can use the provided `Dockerfile` to quickly build a polymath docker image (if your user is not part of the `docker` group, remember to prepend `sudo` to the following command):
