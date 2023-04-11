@@ -1,6 +1,6 @@
 # Polymath
 
-This is a fork of the original Polymath project with several aims.
+This is a fork of the original [Polymath](https://github.com/samim23/polymath) project with several aims.
 
 1. Clean up and organizing the original codebase to make it easier to read 
 
@@ -11,7 +11,7 @@ This is a fork of the original Polymath project with several aims.
 
 # How it works
 
-This fork utilizies tinydb to create a Json database and fire to create the cli 
+This fork utilizies [tinydb](https://github.com/msiemens/tinydb) to create a Json database and [fire](https://github.com/google/python-fire) to create the cli 
 
 ## Folder structure
 
@@ -156,5 +156,5 @@ python cli.py split "path/to/song.mp3" "output/dir"
 
 # Credits
 - This project is a fork of the original Polymath project. 
-- The original project was developed by [Username], and can be found at [Link to the original project]. 
+- The original project was developed by [samim](https://github.com/samim23), and can be found at https://github.com/samim23/polymath  
 
