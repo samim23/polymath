@@ -1,20 +1,27 @@
-
 # Polymath
 
-Polymath uses machine learning to convert any music library (*e.g from Hard-Drive or YouTube*) into a music production sample-library. The tool automatically separates songs into stems (*beats, bass, etc.*), quantizes them to the same tempo and beat-grid (*e.g. 120bpm*), analyzes musical structure (*e.g. verse, chorus, etc.*), key (*e.g C4, E3, etc.*) and other infos (*timbre, loudness, etc.*), and converts audio to midi. The result is a searchable sample library that streamlines the workflow for music producers, DJs, and ML audio developers.
+Polymath uses machine learning to convert any music library (*e.g from Hard-Drive or YouTube*) into a music production sample-library. The tool automatically separates tracks into stems (_drums, bass, etc._), quantizes them to the same tempo and beat-grid (*e.g. 120bpm*), analyzes tempo, key (_e.g C4, E3, etc._) and other infos (*timbre, loudness, etc.*) and cuts loop out of them. The result is a searchable sample library that streamlines the workflow for music producers, DJs, and ML audio developers.
 
-<p align="center"><img alt="Polymath" src="https://samim.io/static/upload/illustration3.688a510b-bocuz8wh.png" /></p>
+Try it in colab:
+<a target="_blank" href="https://colab.research.google.com/drive/1TjRVFdh1BPdQ_5_PL5EsfS278-EUYt90?usp=sharing">
+<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a>
+
+![Polymath](docs/images/polymath.png)
 
 ## Use-cases
-Polymath makes it effortless to combine elements from different songs to create unique new compositions: Simply grab a beat from a Funkadelic track, a bassline from a Tito Puente piece, and fitting horns from a Fela Kuti song, and seamlessly integrate them into your DAW in record time. Using Polymath's search capability to discover related tracks, it is a breeze to create a polished, hour-long mash-up DJ set. For ML developers, Polymath simplifies the process of creating a large music dataset, for training generative models, etc.
+
+Polymath makes it effortless to combine elements from different tracks to create unique new compositions: Simply grab a beat from a Funkadelic track, a bassline from a Tito Puente piece, and fitting horns from a Fela Kuti song, and seamlessly integrate them into your DAW in record time. Using Polymath's search capability to discover related tracks, it is a breeze to create a polished, hour-long mash-up DJ set. For ML developers, Polymath simplifies the process of creating a large music dataset, for training generative models, etc.
 
 ## How does it work?
-- Music Source Separation is performed with the [Demucs](https://github.com/facebookresearch/demucs) neural network
-- Music Structure Segmentation/Labeling is performed with the [sf_segmenter](https://github.com/wayne391/sf_segmenter) neural network
-- Music Pitch Tracking and Key Detection are performed with [Crepe](https://github.com/marl/crepe) neural network
-- Music to MIDI transcription is performed with [Basic Pitch](https://github.com/spotify/basic-pitch) neural network
-- Music Quantization and Alignment are performed with [pyrubberband](https://github.com/bmcfee/pyrubberband)
-- Music Info retrieval and processing is performed with [librosa](https://github.com/librosa/librosa)
+
+- Import tracks from youtube or directly from your google drive
+- Process selected (or all) tracks with a configurable selection of nendo plugins:
+    - Apply the [classification plugin](https://github.com/okio-ai/nendo-plugin-classify-core) to compute _volume_, _tempo_ (bpm), _key_, _intensity_, _frequency_, and _loudness_ for each track
+    - Apply the [stemification plugin](https://github.com/okio-ai/nendo-plugin-stemify-demucs) to separate each track into four source signals: _vocals_, _drum_, _bass_, and _other_
+    - Apply the [quantization plugin](https://github.com/okio-ai/nendo-plugin-quantize-core) to quantize each track to a specified target _bpm_
+    - Apply the [loopification plugin](https://github.com/okio-ai/nendo-plugin-loopify) to automatically detect and extract loops from each sample
+- Export the results of the processing with informative file names to your google drive in _wav_, _mp3_ or _ogg_ format.
 
 ## Community
 
@@ -22,23 +29,31 @@ Join the Polymath Community on [Discord](https://discord.gg/gaZMZKzScj)
 
 ## Requirements
 
-You need to have the following software installed on your system:
+**Polymath requires Python version 3.8, 3.9 or 3.10.**
 
-- ``ffmpeg``
+> It is recommended to use a [virtual environment](https://docs.python.org/3/library/venv.html), in order to avoid dependency conflicts. You can use your favorite virtual environment management system, like [conda](https://docs.conda.io/en/latest/), [poetry](https://python-poetry.org/), or [pyenv](https://github.com/pyenv/pyenv) for example.
+
+Furthermore, the following software packages need to be installed in your system:
+
+- **Ubuntu**: `sudo apt-get install ffmpeg libsndfile1 libportaudio2 rubberband-cli libmpg123-dev`
+- **Mac OS**: `brew install ffmpeg libsndfile portaudio rubberband mpg123`
+- **Windows**
+
+    > Windows support is currently under development. For the time being, we highly recommend using [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install) and then following the linux instructions.
 
 ## Installation
 
-You need python version `>=3.7` and `<=3.10`. From your terminal run:
+You need python version `>=3.8` and `<=3.10`. From your terminal run:
+
 ```bash
+pip install git+https://github.com/CPJKU/madmom.git@0551aa8
 git clone https://github.com/samim23/polymath
 cd polymath
 pip install -r requirements.txt
+pip uninstall -y essentia essentia-tensorflow && pip install essentia-tensorflow
 ```
 
-If you run into an issue with basic-pitch while trying to run Polymath, run this command after your installation:
-```bash
-pip install git+https://github.com/spotify/basic-pitch.git
-```
+The last line is a fix that's needed to avoid a dependency conflict among the plugins.
 
 ## GPU support
 
@@ -54,114 +69,119 @@ docker build -t polymath ./
 
 In order to exchange input and output files between your hosts system and the polymath docker container, you need to create the following four directories:
 
-- `./input`
-- `./library`
-- `./processed`
-- `./separated`
+- `./polymath_input`
+- `./polymath_library`
+- `./polymath_output`
+- `./models`
 
-Now put any files you want to process with polymath into the `input` folder.
+E.g. run `mkdir -p ./polymath_input ./polymath_library ./polymath_output ./models`.
+
+Now put any files you want to process with polymath into the `polymath_input` folder.
 Then you can run polymath through docker by using the `docker run` command and pass any arguments that you would originally pass to the python command, e.g. if you are in a linux OS call:
 
 ```bash
 docker run \
-    -v "$(pwd)"/processed:/polymath/processed \
-    -v "$(pwd)"/separated:/polymath/separated \
-    -v "$(pwd)"/library:/polymath/library \
-    -v "$(pwd)"/input:/polymath/input \
-    polymath python /polymath/polymath.py -a ./input/song1.wav
+    -v "$(pwd)"/models:/polymath/models \
+    -v "$(pwd)"/polymath_input:/polymath/polymath_input \
+    -v "$(pwd)"/polymath_library:/polymath/polymath_library \
+    -v "$(pwd)"/polymath_output:/polymath/polymath_output \
+    polymath \
+    python polymath.py -i ./polymath_input/song1.wav -p -e
 ```
 
 ## Run Polymath
 
-### 1. Add songs to the Polymath Library
+To print the help for the python command line arguments:
+
+```bash
+python polymath.py -h
+```
+
+### 1. Add tracks to the Polymath Library
 
 ##### Add YouTube video to library (auto-download)
+
 ```bash
-python polymath.py -a n6DAqMFe97E
+python polymath.py -i n6DAqMFe97E
 ```
+
 ##### Add audio file (wav or mp3)
+
 ```bash
-python polymath.py -a /path/to/audiolib/song.wav
+python polymath.py -i /path/to/audiolib/song.wav
 ```
+
 ##### Add multiple files at once
-```bash
-python polymath.py -a n6DAqMFe97E,eaPzCHEQExs,RijB8wnJCN0
-python polymath.py -a /path/to/audiolib/song1.wav,/path/to/audiolib/song2.wav
-python polymath.py -a /path/to/audiolib/
-```
-Songs are automatically analyzed once which takes some time. Once in the database, they can be access rapidly. The database is stored in the folder "/library/database.p". To reset everything, simply delete it.
 
-### 2. Quantize songs in the Polymath Library
-##### Quantize a specific songs in the library to tempo 120 BPM (-q = database audio file ID, -t = tempo in BPM)
 ```bash
-python polymath.py -q n6DAqMFe97E -t 120
+python polymath.py -i n6DAqMFe97E,eaPzCHEQExs,RijB8wnJCN0
+python polymath.py -i /path/to/audiolib/song1.wav,/path/to/audiolib/song2.wav
+python polymath.py -i /path/to/audiolib/
+# you can even mix imports:
+python polymath.py -i /path/to/audiolib/,n6DAqMFe97E,/path/to/song2.wav
 ```
-##### Quantize all songs in the library to tempo 120 BPM
-```bash
-python polymath.py -q all -t 120
-```
-##### Quantize a specific songs in the library to the tempo of the song (-k)
-```bash
-python polymath.py -q n6DAqMFe97E -k
-```
-Songs are automatically quantized to the same tempo and beat-grid and saved to the folder “/processed”.
 
-### 3. Search for similar songs in the Polymath Library
-##### Search for 10 similar songs based on a specific songs in the library (-s = database audio file ID, -sa = results amount)
-```bash
-python polymath.py -s n6DAqMFe97E -sa 10
-```
-##### Search for similar songs based on a specific songs in the library and quantize all of them to tempo 120 BPM
-```bash
-python polymath.py -s n6DAqMFe97E -sa 10 -q all -t 120
-```
-##### Include BPM as search criteria  (-st)
-```bash
-python polymath.py -s n6DAqMFe97E -sa 10 -q all -t 120 -st -k
-```
-Similar songs are automatically found and optionally quantized and saved to the folder "/processed". This makes it easy to create for example an hour long mix of songs that perfectly match one after the other. 
+Once in the database, they can be searched through, processed and exported. The database is stored by default in the folder "./polymath_library". To change the library folder use the `--library_path` console argument. To reset everything, simply delete that directory.
 
-### 4. Convert Audio to MIDI
-##### Convert all processed audio files and stems to MIDI (-m)
-```bash
-python polymath.py -a n6DAqMFe97E -q all -t 120 -m
-```
-Generated Midi Files are currently always 120BPM and need to be time adjusted in your DAW. This will be resolved [soon](https://github.com/spotify/basic-pitch/issues/40). The current Audio2Midi model gives mixed results with drums/percussion. This will be resolved with additional audio2midi model options in the future.
+### 2. Quantize tracks in the Polymath Library
 
+##### Find a specific song in the library and quantize it to tempo 120 BPM (-f = find ID in library, -q = quantize to tempo in BPM)
+
+```bash
+python polymath.py -f n6DAqMFe97E -q 120
+```
+
+##### Quantize all tracks in the library to tempo 120 BPM
+
+```bash
+python polymath.py -q 120
+```
+
+### 3. Search for specific tracks in the Polymath Library
+
+##### Find tracks with specific search keys in the library and export them
+
+```bash
+python polymath.py -f n6DAqMFe97E,my_song.mp3 -e
+```
+
+The default export directory is `./polymath_output`. To specify a different directory, use the `-o /path/to/my/output/dir` flag.
+
+##### Find tracks in specific BPM range as search criteria (-bmin and -bmax) and also export loops (-fl)
+
+```bash
+python polymath.py -bmin 80 -bmax 100 -fl -e
+```
 
 ## Audio Features
 
 ### Extracted Stems
-The Demucs Neural Net has settings that can be adjusted in the python file
+
+Stems are extracted with the [nendo stemify plugin](https://github.com/okio-ai/nendo_plugin_stemify_demucs/). Extracted stem types are:
+
 ```bash
 - bass
 - drum
-- guitare
-- other
-- piano
 - vocals
+- other
 ```
+
 ### Extracted Features
-The audio feature extractors have settings that can be adjusted in the python file
+
+Music Information Retrieval features are computed using the [nendo classify plugin](https://github.com/okio-ai/nendo_plugin_classify_core/). Extracted features are:
+
 ```bash
 - tempo
 - duration
-- timbre
-- timbre_frames
-- pitch
-- pitch_frames
 - intensity
-- intensity_frames
-- volume
 - avg_volume
 - loudness
-- beats
-- segments_boundaries
-- segments_labels
-- frequency_frames
 - frequency
 - key
 ```
 
 ## License
+
 Polymath is released under the MIT license as found in the [LICENSE](https://github.com/samim23/polymath/blob/main/LICENSE) file.
+
+As for [nendo core](https://github.com/okio-ai/nendo) and the [plugins used in polymath](#how-does-it-work), see their respective repositories for information about their license.
