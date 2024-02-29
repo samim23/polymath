@@ -46,7 +46,6 @@ Furthermore, the following software packages need to be installed in your system
 You need python version `>=3.8` and `<=3.10`. From your terminal run:
 
 ```bash
-pip install git+https://github.com/CPJKU/madmom.git@0551aa8
 git clone https://github.com/samim23/polymath
 cd polymath
 pip install -r requirements.txt
