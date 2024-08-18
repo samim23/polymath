@@ -133,7 +133,7 @@ def audio_process(vids, videos):
         print('------ process audio',vid)
         # extract file name
         audioname = vid.split("/")[-1]
-        audioname, _ = audioname.split(".")
+        audioname, _ = os.path.splitext(audioname)
 
         # generate a unique ID based on file path and name
         hash_object = hashlib.sha256(vid.encode())
