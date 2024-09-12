@@ -152,13 +152,17 @@ def audio_process(vids, videos):
         if vid.endswith(".mp3"):
             # convert mp3 to wav and save it
             print('converting mp3 to wav:', vid)
-            y, sr = librosa.load(path=vid, sr=None, mono=False)
+            songArray, sr = librosa.load(path=vid, sr=None, mono=False)
             path = os.path.join(os.getcwd(), 'library', audioid+'.wav')
             # resample to 44100k if required
             if sr != 44100:
                 print('converting audio file to 44100:', vid)
-                y = librosa.resample(y, orig_sr=sr, target_sr=44100)
-            sf.write(path, np.ravel(y), 44100)
+                songArray = librosa.resample(songArray, orig_sr=sr, target_sr=44100)
+            
+            if songArray.ndim > 1:
+                songArray = np.mean(songArray, axis=0)
+            
+            sf.write(path, np.ravel(songArray), 44100)
             vid = path
 
         # check if is wav and copy it to local folder
