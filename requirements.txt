@@ -1,12 +1,12 @@
-crepe==0.0.13
-librosa==0.9.2
+crepe==0.0.16
+librosa==0.11.0
 numpy>=1.20
-pyrubberband==0.3.0
+pyrubberband==0.4.0
 sf_segmenter==0.0.2
-soundfile==0.11.0
-yt_dlp==2023.02.17
+soundfile==0.13.1
+yt_dlp==2025.09.26
 demucs==4.0.0
-basic-pitch==0.2.0
+basic-pitch==0.4.0
 matplotlib
 tensorflow==2.9; sys_platform == 'windows' or platform_machine != 'arm64'
 tensorflow-macos; sys_platform == 'darwin' and platform_machine == 'arm64'
