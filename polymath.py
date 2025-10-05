@@ -300,7 +300,7 @@ def get_pitch(y_harmonic, sr, beats):
 
 def get_timbre(y, sr, beats):
     # Mel spectogram
-    S = librosa.feature.melspectrogram(y, sr=sr, n_mels=128)
+    S = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128)
     log_S = librosa.power_to_db(S, ref=np.max)
     # MFCC - Timbre
     mfcc = librosa.feature.mfcc(S=log_S, n_mfcc=13)
@@ -681,11 +681,11 @@ def main():
         vid.audio_features = audio_features
         print(
             vid.id,
-            "tempo", round(audio_features["tempo"], 2),
-            "duration", round(audio_features["duration"], 2),
-            "timbre", round(audio_features["timbre"], 2),
-            "pitch", round(audio_features["pitch"], 2),
-            "intensity", round(audio_features["intensity"], 2),
+            "tempo", np.round(audio_features["tempo"], 2),
+            "duration", np.round(audio_features["duration"], 2),
+            "timbre", np.round(audio_features["timbre"], 2),
+            "pitch", np.round(audio_features["pitch"], 2),
+            "intensity", np.round(audio_features["intensity"], 2),
             "segments", len(audio_features["segments_boundaries"]),
             "frequency", round(audio_features["frequency"], 2),
             "key", audio_features["key"],
